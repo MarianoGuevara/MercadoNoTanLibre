@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "093BAchgSglXllMlZLP5NU55oXQ/B0lHHajqivh4L7oEESniJ10RYjoKb4cTDSMG+1VMUOryr7XZ2RfQj0eDAA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialUnoLaboII\\Guevara.Mariano\\Entidades\\Entidades.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Mariano\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.24\\microsoft.windowsdesktop.app.ref.6.0.24.nupkg.sha512",
+    "C:\\Users\\Mariano\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.24\\microsoft.netcore.app.ref.6.0.24.nupkg.sha512",
+    "C:\\Users\\Mariano\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.24\\microsoft.aspnetcore.app.ref.6.0.24.nupkg.sha512"
+  ],
+  "logs": []
+}

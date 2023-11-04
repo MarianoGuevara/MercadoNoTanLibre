@@ -1,0 +1,50 @@
+[
+  {
+    "apellido": "Gorgen",
+    "nombre": "Corey",
+    "legajo": 1,
+    "clave": "123abc45",
+    "correo": "cgorgen@vendedor.com",
+    "perfil": "vendedor"
+  },
+  {
+    "apellido": "Harroll",
+    "nombre": "Ingrid",
+    "legajo": 2,
+    "clave": "qweasdzx",
+    "correo": "iharroll@vendedor.com",
+    "perfil": "vendedor"
+  },
+  {
+    "apellido": "Harris",
+    "nombre": "Steve",
+    "legajo": 3,
+    "clave": "eddie666",
+    "correo": "sharris@maiden.com.uk",
+    "perfil": "vendedor"
+  },
+  {
+    "apellido": "Robinson",
+    "nombre": "Tilda",
+    "legajo": 4,
+    "clave": "12345678",
+    "correo": "trobinson@super.com",
+    "perfil": "supervisor"
+  },
+  {
+    "apellido": "Jordan",
+    "nombre": "Michael",
+    "legajo": 5,
+    "clave": "12345678",
+    "correo": "admin@admin.com",
+    "perfil": "administrador"
+  },
+  {
+    "apellido": "gghhjhj",
+    "nombre": "sddfdf",
+    "legajo": 5,
+    "clave": "1",
+    "correo": "1@gmail.com",
+    "perfil": "administrador"
+  }
+]

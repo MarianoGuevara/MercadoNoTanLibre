@@ -40,6 +40,7 @@ namespace Formularios
             this.Text = "Inicio de sesión";
             this.btn1.Text = "ACCEDER";
             this.btn2.Text = "REGISTRARSE";
+            this.mensajeLogin = "No se ha intentado iniciar sesión aún";
         }
 
         /// <summary>
@@ -81,7 +82,6 @@ namespace Formularios
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
         }
 
         /// <summary>

@@ -19,7 +19,6 @@ namespace Formularios
     {
         private Plataforma plataforma;
         private Usuario user;
-        public string mensajeRegistro;
         public Usuario User { get { return this.user; } }
 
         /// <summary>
@@ -37,7 +36,6 @@ namespace Formularios
             this.cbTipoUser.Items.Add("vendedor");
             this.cbTipoUser.Items.Add("administrador");
             this.cbTipoUser.Items.Add("supervisor");
-            this.mensajeRegistro = String.Empty;
         }
 
         /// <summary>
@@ -58,7 +56,6 @@ namespace Formularios
         private void btn1_Click(object sender, EventArgs e)
         {
             VerficadoraDeValidez verificador = new VerficadoraDeValidez();
-            this.mensajeRegistro = "Algunos datos ingresados estan en formato incorrecto";
             try
             {
                 if (this.VerificarUsuario())
@@ -69,24 +66,27 @@ namespace Formularios
                                             this.ActuarSegunIndice());
                     if ((this.plataforma == user) == -1)
                     {
-                        this.mensajeRegistro = "Usuario registrado con exito";
                         this.DialogResult = DialogResult.OK;
+                        MessageBox.Show("Usuario registrado con exito", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
-                    else this.mensajeRegistro = "Usuario ya existente";
+                    else throw new ExcepcionYaRegistrado("Usuario ya existente");
 
                     this.plataforma += this.user;
                 }
                 if (this.DialogResult != DialogResult.OK)
                 {
-                    throw new ExcepcionDatosInvalidos(this.mensajeRegistro);
+                    throw new ExcepcionDatosInvalidos("Algunos datos ingresados estan en formato incorrecto");
                 }
             }
             catch (ExcepcionDatosInvalidos ex)
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.DialogResult = DialogResult.Cancel;
             }
-
+            catch (ExcepcionYaRegistrado ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally { this.DialogResult = DialogResult.OK; }
         }
 
         /// <summary>

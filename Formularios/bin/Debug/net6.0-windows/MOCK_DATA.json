@@ -46,5 +46,13 @@
     "clave": "1",
     "correo": "1@gmail.com",
     "perfil": "administrador"
+  },
+  {
+    "apellido": "3",
+    "nombre": "2",
+    "legajo": 2222,
+    "clave": "1234567",
+    "correo": "2@gmail.com",
+    "perfil": "administrador"
   }
 ]

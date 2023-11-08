@@ -28,30 +28,17 @@ namespace Formularios
         }
 
         /// <summary>
-        /// Verifica, con expresiones regulares, si un string es valido para ser un correo o no 
-        /// </summary>
-        /// <param name="input"> Se espera un string a analizar </param>
-        /// <returns> Devuelve un booleano indicando si es valido o no  </returns>
-        private bool VerificarMail(string input)
-        {
-            bool retorno = true;
-            string matcheo = Regex.Match(input, @"[A-Z|a-z|0-9]+@[a-z|A-Z]+.com").ToString();
-            if (matcheo.Length == 0)
-            {
-                matcheo = Regex.Match(input, @"[A-Z|a-z|0-9]+@[a-z|A-Z]+.com.[a-z|A-Z]+").ToString();
-                if (matcheo.Length == 0) retorno = false;
-            }
-            return retorno;
-        }
-
-        /// <summary>
         /// Verifica si, con los datos de los 2 lugares para ingresar datos (correo y contraseña),
         /// Se puede crear un usuario válido
         /// </summary>
         /// <returns> Un booleano indicando si es valido o no el usuario potencial </returns>
         protected virtual bool VerificarUsuario()
         {
-            return this.VerificarMail(this.txtMail.Text) && this.txtPassword.Text != String.Empty;
+            VerficadoraDeValidez verificador = new VerficadoraDeValidez();
+
+            return verificador.VerificarMail(this.txtMail.Text) &&
+                   verificador.VerificarLargoString(this.txtPassword.Text, 5);
+
         }
     }
 }

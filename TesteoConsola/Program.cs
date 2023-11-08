@@ -6,7 +6,7 @@ internal class Program
     private static void Main(string[] args)
     {
         Program program = new Program();
-        double a = program.VerificarParseo<int>("464");
+        double a = program.VerificarParseo<double>("464.4");
         Console.WriteLine($"tipo: {a.GetType()} || valor: {a}");
 
         ////List<Usuario> l1 = new List<Usuario>();

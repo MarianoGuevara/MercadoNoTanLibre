@@ -8,8 +8,8 @@ namespace Entidades
 {
     public interface IVerificador
     {
-        bool CrearObjeto();
-        bool VerificarLargoString(int largoMinimo);
-        bool Parseador<T>(string str) where T : struct ;
+        //bool CrearObjeto();
+        bool VerificarLargoString(string dato, int largoMinimo);
+        T Parsear<T>(string str) where T : struct ;
     }
 }

@@ -19,7 +19,7 @@ namespace Formularios
         private static string pathJson;
         private static string pathLog;
         private static Plataforma plataforma;
-
+        private string mensajeLogin;
         /// <summary>
         /// Constructor estático. Inicializa los atributos estáticos
         /// </summary>
@@ -48,32 +48,40 @@ namespace Formularios
         /// </summary>
         private void btn1_Click(object sender, EventArgs e)
         {
-            if (base.VerificarUsuario())
+            try
             {
-                Usuario usuario = new Usuario("", "", base.txtPassword.Text, base.txtMail.Text, 1, "vendedor");
-                if ((FormLogin.plataforma == usuario) != -1)
+                if (base.VerificarUsuario())
                 {
-                    usuario = FormLogin.plataforma.Usuarios[FormLogin.plataforma == usuario];
-                    this.SerializarLogin(usuario.MostrarUserLogin());
-
-                    MessageBox.Show($"Usuario valido, bienvenido '{usuario.nombre}'");
-
-                    this.Limpiar();
-                    this.Hide();
-                    FormAppMain fa = new FormAppMain(usuario, FormLogin.plataforma);
-                    fa.ShowDialog();
-                    if (fa.DialogResult == DialogResult.OK)
+                    Usuario usuario = new Usuario("", "", base.txtPassword.Text, base.txtMail.Text, 1, "vendedor");
+                    if ((FormLogin.plataforma == usuario) != -1)
                     {
-                        this.DialogResult = DialogResult.Cancel;
-                        this.Show();
+                        usuario = FormLogin.plataforma.Usuarios[FormLogin.plataforma == usuario];
+                        this.SerializarLogin(usuario.MostrarUserLogin());
+
+                        MessageBox.Show($"Usuario valido, bienvenido '{usuario.nombre}'");
+
+                        this.Limpiar();
+                        this.Hide();
+                        FormAppMain fa = new FormAppMain(usuario, FormLogin.plataforma);
+                        fa.ShowDialog();
+                        if (fa.DialogResult == DialogResult.OK)
+                        {
+                            this.DialogResult = DialogResult.Cancel;
+                            this.Show();
+                        }
+                    }
+                    else
+                    {
+                        throw new ExcepcionDatosInvalidos("Los datos del ingreso no coinciden con ningun miembro de la plataforma");
                     }
                 }
-                else
-                {
-                    MessageBox.Show("Los datos del ingreso no coinciden con ningun miembro de la plataforma");
-                }
+                else throw new ExcepcionDatosInvalidos("Datos en formato invalido");
             }
-            else MessageBox.Show("Datos en formato invalido");
+            catch (ExcepcionDatosInvalidos ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
 
         /// <summary>
@@ -81,6 +89,7 @@ namespace Formularios
         /// </summary>
         private void btn2_Click(object sender, EventArgs e)
         {
+
             FormRegistros fr = new FormRegistros(FormLogin.plataforma);
             fr.ShowDialog();
             this.SerializarJson();

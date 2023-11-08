@@ -19,7 +19,7 @@ namespace Formularios
     {
         private Plataforma plataforma;
         private Usuario user;
-        private string mensajeRegistro;
+        public string mensajeRegistro;
         public Usuario User { get { return this.user; } }
 
         /// <summary>
@@ -46,8 +46,9 @@ namespace Formularios
         /// <returns>booleano con el resultado de la operacion</returns>
         protected override bool VerificarUsuario()
         {
-            return base.VerificarUsuario() && this.txtName.Text != String.Empty &&
-                   this.cbTipoUser.SelectedItem != null;
+            VerficadoraDeValidez verificador = new VerficadoraDeValidez();
+            return base.VerificarUsuario() && this.cbTipoUser.SelectedItem != null &&
+                   verificador.VerificarLargoString(this.txtPassword.Text, 5);
         }
 
         /// <summary>
@@ -56,23 +57,36 @@ namespace Formularios
         /// </summary>
         private void btn1_Click(object sender, EventArgs e)
         {
-            this.mensajeRegistro = "Algun/os dato/s ingresado/s esta/n en formato incorrecto";
-            if (this.VerificarUsuario() && short.TryParse(this.txtLegajo.Text, out _))
+            VerficadoraDeValidez verificador = new VerficadoraDeValidez();
+            this.mensajeRegistro = "Algunos datos ingresados estan en formato incorrecto";
+            try
             {
-                this.user = new Usuario(this.txtName.Text, this.txtApellido.Text,
-                                        this.txtPassword.Text, this.txtMail.Text,
-                                        short.Parse(this.txtLegajo.Text),
-                                        this.ActuarSegunIndice());
-                if ((this.plataforma == user) == -1)
+                if (this.VerificarUsuario())
                 {
-                    this.mensajeRegistro = "Usuario registrado con exito";
-                    this.DialogResult = DialogResult.OK;
-                }
-                else this.mensajeRegistro = "Usuario ya existente";
+                    this.user = new Usuario(this.txtName.Text, this.txtApellido.Text,
+                                            this.txtPassword.Text, this.txtMail.Text,
+                                            verificador.Parsear<short>(this.txtLegajo.Text),
+                                            this.ActuarSegunIndice());
+                    if ((this.plataforma == user) == -1)
+                    {
+                        this.mensajeRegistro = "Usuario registrado con exito";
+                        this.DialogResult = DialogResult.OK;
+                    }
+                    else this.mensajeRegistro = "Usuario ya existente";
 
-                this.plataforma += this.user;
+                    this.plataforma += this.user;
+                }
+                if (this.DialogResult != DialogResult.OK)
+                {
+                    throw new ExcepcionDatosInvalidos(this.mensajeRegistro);
+                }
             }
-            MessageBox.Show(this.mensajeRegistro);
+            catch (ExcepcionDatosInvalidos ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.DialogResult = DialogResult.Cancel;
+            }
+
         }
 
         /// <summary>

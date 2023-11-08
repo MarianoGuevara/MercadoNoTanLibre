@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "LiSPBc4zpqsremyBUgYXzt/nnTO4Urdvm+DtW8jyM+l5UgmzP+F7edDHAdHIHq1HuxNdOXKPuixMSdzdjJSkvg==",
+  "dgSpecHash": "ETTr4Q97aN07Gb18fHi/voC8Wt2L3CYx9E5Z2zhhZOveepmHNuHxW+siH6Rfl5O7Wb2w7VuVfA4K2xbcQq3Wmw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialUnoLaboII\\Guevara.Mariano\\TesteoConsola\\TesteoConsola.csproj",
+  "projectFilePath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialDosLaboII\\Guevara.Mariano\\TesteoConsola\\TesteoConsola.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mariano\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.24\\microsoft.windowsdesktop.app.ref.6.0.24.nupkg.sha512",
     "C:\\Users\\Mariano\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.24\\microsoft.netcore.app.ref.6.0.24.nupkg.sha512",

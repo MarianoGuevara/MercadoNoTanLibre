@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialUnoLaboII\\Guevara.Mariano\\Formularios\\Formularios.csproj": {}
+    "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialDosLaboII\\Guevara.Mariano\\Formularios\\Formularios.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialUnoLaboII\\Guevara.Mariano\\Entidades\\Entidades.csproj": {
+    "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialDosLaboII\\Guevara.Mariano\\Entidades\\Entidades.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialUnoLaboII\\Guevara.Mariano\\Entidades\\Entidades.csproj",
+        "projectUniqueName": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialDosLaboII\\Guevara.Mariano\\Entidades\\Entidades.csproj",
         "projectName": "Entidades",
-        "projectPath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialUnoLaboII\\Guevara.Mariano\\Entidades\\Entidades.csproj",
+        "projectPath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialDosLaboII\\Guevara.Mariano\\Entidades\\Entidades.csproj",
         "packagesPath": "C:\\Users\\Mariano\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialUnoLaboII\\Guevara.Mariano\\Entidades\\obj\\",
+        "outputPath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialDosLaboII\\Guevara.Mariano\\Entidades\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Mariano\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -73,14 +73,14 @@
         }
       }
     },
-    "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialUnoLaboII\\Guevara.Mariano\\Formularios\\Formularios.csproj": {
+    "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialDosLaboII\\Guevara.Mariano\\Formularios\\Formularios.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialUnoLaboII\\Guevara.Mariano\\Formularios\\Formularios.csproj",
+        "projectUniqueName": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialDosLaboII\\Guevara.Mariano\\Formularios\\Formularios.csproj",
         "projectName": "Formularios",
-        "projectPath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialUnoLaboII\\Guevara.Mariano\\Formularios\\Formularios.csproj",
+        "projectPath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialDosLaboII\\Guevara.Mariano\\Formularios\\Formularios.csproj",
         "packagesPath": "C:\\Users\\Mariano\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialUnoLaboII\\Guevara.Mariano\\Formularios\\obj\\",
+        "outputPath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialDosLaboII\\Guevara.Mariano\\Formularios\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Mariano\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -97,8 +97,8 @@
           "net6.0-windows7.0": {
             "targetAlias": "net6.0-windows",
             "projectReferences": {
-              "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialUnoLaboII\\Guevara.Mariano\\Entidades\\Entidades.csproj": {
-                "projectPath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialUnoLaboII\\Guevara.Mariano\\Entidades\\Entidades.csproj"
+              "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialDosLaboII\\Guevara.Mariano\\Entidades\\Entidades.csproj": {
+                "projectPath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialDosLaboII\\Guevara.Mariano\\Entidades\\Entidades.csproj"
               }
             }
           }

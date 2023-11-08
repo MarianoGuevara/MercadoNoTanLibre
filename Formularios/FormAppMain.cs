@@ -159,7 +159,8 @@ namespace Formularios
                     fv.ShowDialog();
                     if (fv.DialogResult == DialogResult.OK)
                     {
-                        this.plataforma.ObjetosEnVenta[selectedIndex] = fv.ObjetoVender;
+                        //this.plataforma.ObjetosEnVenta[selectedIndex] = fv.ObjetoVender;
+                        this.plataforma.Editar(fv.ObjetoVender, selectedIndex);
                         this.ActualizarCatalogo();
                     }
                 }
@@ -274,7 +275,8 @@ namespace Formularios
                 {
                     this.plataforma.ObjetosVendidos.Add(this.plataforma.ObjetosEnVenta[selectedIndex]);
                     this.SerializarXml(FormAppMain.pathXmlventasPrevias, false);
-                    this.plataforma -= this.plataforma.ObjetosEnVenta[selectedIndex];
+                    //this.plataforma -= this.plataforma.ObjetosEnVenta[selectedIndex];
+                    this.plataforma.Eliminar(this.plataforma.ObjetosEnVenta[selectedIndex]);
                     this.txtInfoProducto2.Items.Remove(selectedItem);
                 }
             }
@@ -315,7 +317,7 @@ namespace Formularios
             if (fv.DialogResult == DialogResult.OK && fv.ObjetoVender is not null)
             {
                 if (this.plataforma == fv.ObjetoVender) MessageBox.Show("El producto ya se encuentra a la venta");
-                else this.plataforma += fv.ObjetoVender;
+                else this.plataforma.Agregar(fv.ObjetoVender); // this.plataforma += fv.ObjetoVender;
                 this.SerializarXml(FormAppMain.pathXmlCatalogo);
             }
             this.ActualizarCatalogo();

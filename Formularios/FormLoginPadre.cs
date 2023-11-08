@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entidades;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,7 +15,7 @@ namespace Formularios
     /// <summary>
     /// La clase padre de los formularios de registro de usuarios/productos
     /// </summary>
-    public partial class FormLoginPadre : Form
+    public partial class FormLoginPadre : Form 
     {
         /// <summary>
         /// Constructor. Inicia el formulario en el centro y sin ícono

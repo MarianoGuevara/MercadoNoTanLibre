@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cEe9amLLzknlo2w5HsVyufKmzeqPrBKaWIWkPCVabTKr0DPFQQ3kzBpnTtPuBD+SLg2TBEE649sBdvpxFXzQpQ==",
+  "dgSpecHash": "/62ttIt+N78yq+W/DhtEIPFWJByWy8oVn2ZxHejQXFsUB3F8VsI7A4hMCUfM4nEnk9KgdOxgKoic+m5tmraGdQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialUnoLaboII\\Guevara.Mariano\\Formularios\\Formularios.csproj",
+  "projectFilePath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialDosLaboII\\Guevara.Mariano\\Formularios\\Formularios.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mariano\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.24\\microsoft.windowsdesktop.app.ref.6.0.24.nupkg.sha512",
     "C:\\Users\\Mariano\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.24\\microsoft.netcore.app.ref.6.0.24.nupkg.sha512",

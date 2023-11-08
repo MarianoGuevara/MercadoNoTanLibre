@@ -10,7 +10,7 @@ namespace Entidades
     /// Clase que representa la plataforma, es decir, la appa principal, con su lista de objetos
     /// tanto en venta como ya vendidos, con sus usuarios registrados, etc
     /// </summary>
-    public sealed class Plataforma
+    public sealed class Plataforma : ICrud<ObjetoEnVenta>
     {
         private List<Usuario> usuarios;
         private List<ObjetoEnVenta> objetosEnVenta;
@@ -136,5 +136,23 @@ namespace Entidades
             if (p == o) p.objetosEnVenta.Remove(o);
             return p;
         }
+        public void Agregar(ObjetoEnVenta o)
+        {
+            Plataforma p = new Plataforma();
+            p = this;
+            p += o;
+        }
+
+        public void Eliminar(ObjetoEnVenta o)
+        {
+            Plataforma p = new Plataforma();
+            p = this;
+            p -= o;
+        }
+        public void Editar(ObjetoEnVenta o, int indiceListaCrud)
+        {
+            this.ObjetosEnVenta[indiceListaCrud] = o;
+        }
+        // no implemento 'Read' ya q por mi app leo directamente en un control de winform
     }
 }

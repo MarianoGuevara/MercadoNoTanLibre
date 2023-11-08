@@ -167,5 +167,6 @@ namespace Entidades
             else if (obj.tipoProducto == ETipoProducto.Alimento) retorno = "Alimento";;
             return retorno;
         }
+
     }
 }

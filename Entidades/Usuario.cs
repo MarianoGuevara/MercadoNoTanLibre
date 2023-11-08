@@ -5,7 +5,7 @@ namespace Entidades
     /// <summary>
     /// Clase usuario. Representa la persona que está tratando de ingresar a la plataforma
     /// </summary>
-    public sealed class Usuario
+    public sealed class Usuario : IVerificador
     {
         public string apellido { get; set; }
         public string nombre { get; set; }
@@ -63,5 +63,21 @@ namespace Entidades
             if (obj is Usuario) return this == (Usuario)obj;
             else return false;
         }
+
+        public T VerificarParseo<T>(string dato)
+        {
+            try
+            {
+                T resultado = (T)Convert.ChangeType(dato, typeof(T));
+                return resultado;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public bool VerificarLargoString(int largoMinimo) { return false; }
+        public bool Parseador<T>(string str) where T : struct { return false; }
+        public bool CrearObjeto() {  return false; }
     }
 }

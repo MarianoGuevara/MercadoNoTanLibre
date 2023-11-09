@@ -12,9 +12,8 @@ namespace Entidades
         void Eliminar(T objetoDelCrud);
         void Editar(T objetoEditCrud, int indiceListaCrud);
 
-
-        //bool CrearObjeto<T>(T obj) where T : class;
-        //U Parsear<U> (string obj) where U : struct;
-        //bool VerificarLargo<V>(V obj, int minimoLargo) where V : struct;
+        // no implementa 'Read' ya que cada CRUD tiene una manera distinta de mostrar 
+        // su info, y necesita distintos parametros o etc, como un control tipo richbox, que 
+        // en clases no existe
     }
 }

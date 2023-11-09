@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entidades;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,30 +14,30 @@ namespace Formularios
     /// <summary>
     /// Esta clase ve los login previos en toda la app; solo para administradores
     /// </summary>
-    public partial class FormVerLogin : Form
+    public partial class FormVerLogin : Form, ISerializadoraXml<string>
     {
         /// <summary>
         /// Constructor. Setea configuraciones basicas de popiedades y controles
         /// </summary>
-        public FormVerLogin()
+        public FormVerLogin(string rutaSerializacion)
         {
             InitializeComponent();
             this.rbInfo.ReadOnly = true;
             this.lblInfo.Text = "LOGINS (solo administradores)";
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.ActualizarPantalla();
+            this.ActualizarPantalla(rutaSerializacion);
         }
-
+        public FormVerLogin():this(Environment.CurrentDirectory + "/usuarios.log") { }
         /// <summary>
         /// Si existe un archivo determinado, devuelve el texto deserializado
         /// </summary>
         /// <returns></returns>
-        private string DeserializarUsers()
+        public string Deserializar(string ruta)
         {
             string retorno = "no hay logins";
-            if (File.Exists(Environment.CurrentDirectory + "/usuarios.log"))
+            if (File.Exists(ruta))
             {
-                using (StreamReader lector = new StreamReader(Environment.CurrentDirectory + "/usuarios.log"))
+                using (StreamReader lector = new StreamReader(ruta))
                 {
                     retorno = lector.ReadToEnd();
                 }
@@ -45,12 +46,24 @@ namespace Formularios
         }
 
         /// <summary>
+        /// Serializa un string en una ruta específica
+        /// </summary>
+        public void Serializar(string aSerializar, string ruta)
+        {
+
+            using (StreamWriter escritor = new StreamWriter(ruta, true))
+            {
+                escritor.WriteLine(aSerializar);
+            }
+        }
+
+        /// <summary>
         /// Asigna el string deserializado con los login como valor del richbox 
         /// </summary>
-        private void ActualizarPantalla()
+        private void ActualizarPantalla(string rutaSerializacion)
         {
-            this.rbInfo.Text = "";
-            this.rbInfo.Text = this.DeserializarUsers();
+            this.rbInfo.Text = ""; 
+            this.rbInfo.Text = this.Deserializar(rutaSerializacion);
         }
     }
 }

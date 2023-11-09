@@ -139,7 +139,7 @@ namespace Entidades
         public void Agregar(ObjetoEnVenta o)
         {
             Plataforma p = new Plataforma();
-            p = this;
+            p = this; // le pongo p = this porque this es solo lectura y no me deja hacerle +=
             p += o;
         }
 
@@ -153,6 +153,11 @@ namespace Entidades
         {
             this.ObjetosEnVenta[indiceListaCrud] = o;
         }
-        // no implemento 'Read' ya q por mi app leo directamente en un control de winform
+
+        //public void Leer()
+        //{
+            
+        //}
+
     }
 }

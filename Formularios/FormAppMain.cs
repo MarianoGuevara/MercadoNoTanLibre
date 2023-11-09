@@ -134,10 +134,10 @@ namespace Formularios
             DialogResult rta = MessageBox.Show("Seguro que desea cerrar sesión?"
                             ,"", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
+            this.SerializarXml(FormAppMain.pathXmlCatalogo);
             if (rta == DialogResult.Yes) DialogResult = DialogResult.OK;
             else
             {
-                this.SerializarXml(FormAppMain.pathXmlCatalogo);
                 e.Cancel = true;
             }
         }

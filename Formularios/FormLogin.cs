@@ -57,7 +57,9 @@ namespace Formularios
                     if ((FormLogin.plataforma == usuario) != -1)
                     {
                         usuario = FormLogin.plataforma.Usuarios[FormLogin.plataforma == usuario];
-                        this.SerializarLogin(usuario.MostrarUserLogin());
+
+                        FormVerLogin fvLogin = new FormVerLogin(FormLogin.pathLog);
+                        fvLogin.Serializar(usuario.MostrarUserLogin(), FormLogin.pathLog);
 
                         MessageBox.Show($"Usuario valido, bienvenido '{usuario.nombre}'");
 
@@ -114,20 +116,6 @@ namespace Formularios
                 e.Cancel = true;
 
             }
-        }
-
-        /// <summary>
-        /// Serializa un contenido string al archivo del path estático FormLogin.pathLog
-        /// </summary>
-        /// <param name="aSerializar"> El contenido a serializar </param> 
-        /// <returns></returns>
-        private bool SerializarLogin(string aSerializar)
-        {
-            using (StreamWriter escritor = new StreamWriter(FormLogin.pathLog, true))
-            {
-                escritor.WriteLine(aSerializar);
-            }
-            return true;
         }
 
         /// <summary>

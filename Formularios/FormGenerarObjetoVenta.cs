@@ -172,7 +172,8 @@ namespace Formularios
                     }
                     else throw new ExcepcionDatosInvalidos("El objeto no se pudo crear. Por favor, revise todos los datos");
                 }
-                else throw new ExcepcionDatosInvalidos("Descripcion o atributo propio de objeto muy cortos o incompletos");
+                else throw new ExcepcionDatosInvalidos("Descripcion o atributo propio de objeto muy cortos o incompletos" +
+                    "");
             }
             catch (FormatException)
             {

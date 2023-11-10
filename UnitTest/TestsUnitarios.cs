@@ -6,7 +6,7 @@ namespace UnitTest
     /// Clase dedicada a testear las sobrecargas operadores ==, != y + de 'productos'
     /// </summary>
     [TestClass]
-    public class UnitTestUsuariosProductos
+    public class TestsUnitarios
     {
         /// <summary>
         /// Verifica 1 de las variantes del funcionamiento del == entre 2 usuarios
@@ -95,6 +95,46 @@ namespace UnitTest
             {
                 //Assert
                 Assert.IsInstanceOfType(ex, typeof(FormatException));
+            }
+        }
+
+        [TestMethod]
+        public void EditarObjeto_Plataforma()
+        {
+            //Arrange
+            Plataforma p1 = new Plataforma();
+
+            Electrodomestico e1 = new Electrodomestico(ETipoProducto.Electrodomestico, 10,1,ETipoElecto.Lavaropa);
+            Electrodomestico e2 = new Electrodomestico(ETipoProducto.Electrodomestico, 100, 10, ETipoElecto.Ventilador);
+
+            p1 += e1;
+
+            //Act
+            p1.Editar(e2, 0);
+
+            //Assert
+            Assert.AreEqual(p1.ObjetosEnVenta[0], e2);
+        }
+
+        [TestMethod]
+        public void EditarObjeto_Plataforma_Falla_FueraIndice()
+        {
+            //Arrange
+            Plataforma p1 = new Plataforma();
+
+            Electrodomestico e1 = new Electrodomestico(ETipoProducto.Electrodomestico, 10, 1, ETipoElecto.Lavaropa);
+            Electrodomestico e2 = new Electrodomestico(ETipoProducto.Electrodomestico, 100, 10, ETipoElecto.Ventilador);
+
+            p1 += e1;
+
+            try
+            {
+                //Act
+                p1.Editar(e2, 1);
+            }
+            catch (Exception ex) 
+            {
+                Assert.IsInstanceOfType(ex, typeof(ArgumentOutOfRangeException));
             }
         }
     }

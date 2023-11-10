@@ -139,7 +139,7 @@ namespace Entidades
         public void Agregar(ObjetoEnVenta o)
         {
             Plataforma p = new Plataforma();
-            p = this; // le pongo p = this porque this es solo lectura y no me deja hacerle +=
+            p = this; // le pongo 'p = this' porque 'this' es solo lectura y no me deja hacerle +=
             p += o;
         }
 
@@ -153,11 +153,5 @@ namespace Entidades
         {
             this.ObjetosEnVenta[indiceListaCrud] = o;
         }
-
-        //public void Leer()
-        //{
-            
-        //}
-
     }
 }

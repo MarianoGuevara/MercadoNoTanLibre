@@ -59,7 +59,13 @@ namespace Entidades
         public ObjetoEnVenta():this(ETipoProducto.Ropa, 1,1) { }
         public static bool operator ==(ObjetoEnVenta o1, ObjetoEnVenta o2)
         {
-            return o1.tipoProducto == o2.tipoProducto && o1.precio == o2.precio;
+            bool retorno = false;
+            if (o1 is null && o2 is null) retorno = true;
+            else if (o1 is not null && o2 is not null)
+            {
+                retorno = o1.tipoProducto == o2.tipoProducto && o1.precio == o2.precio;
+            }
+            return retorno;
         }
         public static bool operator !=(ObjetoEnVenta o1, ObjetoEnVenta o2)
         {

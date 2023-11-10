@@ -99,7 +99,7 @@ namespace UnitTest
         }
 
         [TestMethod]
-        public void EditarObjeto_Plataforma()
+        public void EditarObjeto_Plataforma_OK()
         {
             //Arrange
             Plataforma p1 = new Plataforma();
@@ -134,8 +134,56 @@ namespace UnitTest
             }
             catch (Exception ex) 
             {
+                //Assert
+                Assert.IsInstanceOfType(ex, typeof(ArgumentOutOfRangeException));
+            }
+        }
+
+        [TestMethod]
+        public void EliminarObjeto_Plataforma_OK()
+        {
+            //Arrange
+            Plataforma p1 = new Plataforma();
+
+            Ropa r1 = new Ropa(ETipoProducto.Ropa, 10, 1, ETipoRopa.Pantalon);
+
+            p1 += r1;
+
+            //Act
+            p1.Eliminar(r1);
+            bool noEsta = p1 != r1;
+
+            //Assert
+            Assert.IsTrue(noEsta);
+        }
+
+        [TestMethod]
+        public void EliminarObjeto_Plataforma_ERROR()
+        {
+            //Arrange
+            Plataforma p1 = new Plataforma();
+
+            Ropa r1 = new Ropa(ETipoProducto.Ropa, 10, 1, ETipoRopa.Pantalon);
+
+            try
+            {
+                //Act
+                p1.Eliminar(r1);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                //Assert
                 Assert.IsInstanceOfType(ex, typeof(ArgumentOutOfRangeException));
             }
         }
     }
 }
+/*
+Asserts usados:
+    -Assert.IsTrue
+    -Assert.IsFalse
+    -Assert.AreEqual
+    -Assert.Fail
+    -Assert.IsInstanceOfType
+*/

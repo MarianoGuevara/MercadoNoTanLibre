@@ -19,7 +19,6 @@ namespace Formularios
         private static string pathJson;
         private static string pathLog;
         private static Plataforma plataforma;
-        private string mensajeLogin;
         /// <summary>
         /// Constructor estático. Inicializa los atributos estáticos
         /// </summary>
@@ -40,7 +39,6 @@ namespace Formularios
             this.Text = "Inicio de sesión";
             this.btn1.Text = "ACCEDER";
             this.btn2.Text = "REGISTRARSE";
-            this.mensajeLogin = "No se ha intentado iniciar sesión aún";
         }
 
         /// <summary>
@@ -95,31 +93,50 @@ namespace Formularios
         /// </summary>
         private void btn2_Click(object sender, EventArgs e)
         {
-
             FormRegistros fr = new FormRegistros(FormLogin.plataforma);
             fr.ShowDialog();
-            this.Serializar(FormLogin.plataforma.Usuarios, FormLogin.pathJson);
+            try
+            {
+                this.Serializar(FormLogin.plataforma.Usuarios, FormLogin.pathJson);
+            }
+            catch (ExcepcionArchivoInvalido ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void FormLogin_Load(object sender, EventArgs e)
         {
-            if (File.Exists(FormLogin.pathJson)) FormLogin.plataforma.Usuarios = this.Deserializar(FormLogin.pathJson);
+            try
+            {
+                FormLogin.plataforma.Usuarios = this.Deserializar(FormLogin.pathJson);
+            }
+            catch (ExcepcionArchivoInvalido ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void FormLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
-
-            this.Serializar(FormLogin.plataforma.Usuarios, FormLogin.pathJson);
-            DialogResult rta = MessageBox.Show("Seguro que desea cerrar la aplicación?"
-                , "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (rta == DialogResult.Yes)
+            try
             {
-                MessageBox.Show("Gracias por usar la app!");
-                DialogResult = DialogResult.OK;
+                this.Serializar(FormLogin.plataforma.Usuarios, FormLogin.pathJson);
+                DialogResult rta = MessageBox.Show("Seguro que desea cerrar la aplicación?"
+                    , "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (rta == DialogResult.Yes)
+                {
+                    MessageBox.Show("Gracias por usar la app!");
+                    DialogResult = DialogResult.OK;
+                }
+                else
+                {
+                    e.Cancel = true;
+
+                }
             }
-            else
+            catch (ExcepcionArchivoInvalido ex)
             {
-                e.Cancel = true;
-
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -140,9 +157,9 @@ namespace Formularios
                     escritor.WriteLine(objJson);
                 }
             }
-            catch (ExcepcionArchivoInvalido ex)
+            catch 
             {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw new ExcepcionArchivoInvalido("Imposible serializar los usuarios");
             }
         }
 

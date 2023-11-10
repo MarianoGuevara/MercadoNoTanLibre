@@ -38,29 +38,5 @@
     "clave": "12345678",
     "correo": "admin@admin.com",
     "perfil": "administrador"
-  },
-  {
-    "apellido": "gghhjhj",
-    "nombre": "sddfdf",
-    "legajo": 5,
-    "clave": "1",
-    "correo": "1@gmail.com",
-    "perfil": "administrador"
-  },
-  {
-    "apellido": "3",
-    "nombre": "2",
-    "legajo": 2222,
-    "clave": "1234567",
-    "correo": "2@gmail.com",
-    "perfil": "administrador"
-  },
-  {
-    "apellido": "gghg",
-    "nombre": "fgg",
-    "legajo": 467,
-    "clave": "22466767",
-    "correo": "256@gmail.com",
-    "perfil": "supervisor"
   }
 ]

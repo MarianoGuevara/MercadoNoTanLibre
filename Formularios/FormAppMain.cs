@@ -20,7 +20,7 @@ namespace Formularios
     /// <summary>
     /// La clase que representa el formulario principal de la aplicacion; el CRUD y otras funcionalidades
     /// </summary>
-    public partial class FormAppMain : Form
+    public partial class FormAppMain : Form, ISerializadora<List<ObjetoEnVenta>>
     {
         private static string pathXmlCatalogo = Environment.CurrentDirectory + "/catalogo.xml";
         private static string pathXmlventasPrevias = Environment.CurrentDirectory + "/ventasPrevias.xml";
@@ -45,8 +45,21 @@ namespace Formularios
             this.lblUserInfo.Text = $"Usuario '{this.userActual.nombre}', {this.userActual.perfil} ({DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year})";
             this.plataforma = plataforma;
 
-            if (File.Exists(FormAppMain.pathXmlCatalogo)) this.DeserializarXml(FormAppMain.pathXmlCatalogo);
-            if (File.Exists(FormAppMain.pathXmlventasPrevias)) this.DeserializarXml(FormAppMain.pathXmlventasPrevias, false);
+            try
+            {
+                if (File.Exists(FormAppMain.pathXmlCatalogo))
+                {
+                    this.plataforma.ObjetosVendidos = this.Deserializar(FormAppMain.pathXmlventasPrevias);
+                }
+                if (File.Exists(FormAppMain.pathXmlventasPrevias))
+                {
+                    this.plataforma.ObjetosEnVenta = this.Deserializar(FormAppMain.pathXmlCatalogo);
+                }
+            }
+            catch (ExcepcionArchivoInvalido ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
             this.txtInfoProducto2.MultiSelect = false;
             this.txtInfoProducto2.View = View.Details;
@@ -83,25 +96,22 @@ namespace Formularios
         /// <param name="catalogo">Un booleano que representa si se está serializando el
         /// catálogo o los objetos YA vendidos previamente</param>
         /// <returns>booleano representando si se pudo realizar la accion o no</returns>
-        private bool SerializarXml(string path, bool catalogo = true)
+        public void Serializar(List<ObjetoEnVenta> aSerializar, string ruta)
         {
             try
             {
-                using (XmlTextWriter escritor = new XmlTextWriter(path, Encoding.UTF8))
+                using (XmlTextWriter escritor = new XmlTextWriter(ruta, Encoding.UTF8))
                 {
                     XmlSerializer serializador = new XmlSerializer(typeof(List<ObjetoEnVenta>));
-
-                    if (catalogo) serializador.Serialize(escritor, this.plataforma.ObjetosEnVenta);
-                    else serializador.Serialize(escritor, this.plataforma.ObjetosVendidos);
+                    serializador.Serialize(escritor, aSerializar);
                 }
-                return true;
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show(ex.Message);
-                return false;
+                throw new ExcepcionArchivoInvalido("Imposible serializar los objetos ya vendidos");
             }
         }
+
         /// <summary>
         /// Serializa un xml a una lista de objetos
         /// </summary>
@@ -109,36 +119,39 @@ namespace Formularios
         /// <param name="catalogo">Un booleano que representa si se está serializando el
         /// catálogo o los objetos YA vendidos previamente</param>
         /// <returns>booleano representando si se pudo realizar la accion o no</returns>
-        private bool DeserializarXml(string path, bool catalogo = true)
+        public List<ObjetoEnVenta> Deserializar(string ruta)
         {
             try
             {
-                using (XmlTextReader lector = new XmlTextReader(path))
+                using (XmlTextReader lector = new XmlTextReader(ruta))
                 {
                     XmlSerializer serializador = new XmlSerializer(typeof(List<ObjetoEnVenta>));
-
-                    if (catalogo) this.plataforma.ObjetosEnVenta = (List<ObjetoEnVenta>)serializador.Deserialize(lector);
-                    else this.plataforma.ObjetosVendidos = (List<ObjetoEnVenta>)serializador.Deserialize(lector);
+                    return (List<ObjetoEnVenta>)serializador.Deserialize(lector);
                 }
-                return true;
             }
-            catch (Exception e)
+            catch
             {
-                MessageBox.Show(e.Message);
-                return false;
+                throw new ExcepcionArchivoInvalido("Imposible deserializar los objetos ya vendidos");
             }
         }
+
         private void FormAppMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-
-            DialogResult rta = MessageBox.Show("Seguro que desea cerrar sesión?"
-                            ,"", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            this.SerializarXml(FormAppMain.pathXmlCatalogo);
-            if (rta == DialogResult.Yes) DialogResult = DialogResult.OK;
-            else
+            try
             {
-                e.Cancel = true;
+                DialogResult rta = MessageBox.Show("Seguro que desea cerrar sesión?"
+                            , "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                this.Serializar(this.plataforma.ObjetosEnVenta, FormAppMain.pathXmlCatalogo);
+                if (rta == DialogResult.Yes) DialogResult = DialogResult.OK;
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+            catch (ExcepcionArchivoInvalido ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -266,21 +279,29 @@ namespace Formularios
         /// </summary>
         private void lblComprar_Click(object sender, EventArgs e)
         {
-            if (this.txtInfoProducto2.SelectedItems.Count > 0)
+            try
             {
-                ListViewItem selectedItem = this.txtInfoProducto2.SelectedItems[0]; // Obtiene el objeto que se selecciono, pero en tipo ListViewItem
-                int selectedIndex = this.txtInfoProducto2.Items.IndexOf(selectedItem);
-                DialogResult rta = MessageBox.Show(this.plataforma.ObjetosEnVenta[selectedIndex].DescripcionProducto(), "Compra", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (rta == DialogResult.Yes)
+                if (this.txtInfoProducto2.SelectedItems.Count > 0)
                 {
-                    this.plataforma.ObjetosVendidos.Add(this.plataforma.ObjetosEnVenta[selectedIndex]);
-                    this.SerializarXml(FormAppMain.pathXmlventasPrevias, false);
-                    //this.plataforma -= this.plataforma.ObjetosEnVenta[selectedIndex];
-                    this.plataforma.Eliminar(this.plataforma.ObjetosEnVenta[selectedIndex]);
-                    this.txtInfoProducto2.Items.Remove(selectedItem);
+                    ListViewItem selectedItem = this.txtInfoProducto2.SelectedItems[0]; // Obtiene el objeto que se selecciono, pero en tipo ListViewItem
+                    int selectedIndex = this.txtInfoProducto2.Items.IndexOf(selectedItem);
+                    DialogResult rta = MessageBox.Show(this.plataforma.ObjetosEnVenta[selectedIndex].DescripcionProducto(), "Compra", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (rta == DialogResult.Yes)
+                    {
+                        this.plataforma.ObjetosVendidos.Add(this.plataforma.ObjetosEnVenta[selectedIndex]);
+                        this.Serializar(this.plataforma.ObjetosVendidos, FormAppMain.pathXmlventasPrevias);
+                        //this.plataforma -= this.plataforma.ObjetosEnVenta[selectedIndex];
+                        this.plataforma.Eliminar(this.plataforma.ObjetosEnVenta[selectedIndex]);
+                        this.txtInfoProducto2.Items.Remove(selectedItem);
+                    }
                 }
+                this.ActualizarCatalogo();
             }
-            this.ActualizarCatalogo();
+            catch (ExcepcionArchivoInvalido ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         /// <summary>
@@ -312,15 +333,22 @@ namespace Formularios
         /// </summary>
         private void lblVenderProducto_Click(object sender, EventArgs e)
         {
-            FormGenerarObjetoVenta fv = new FormGenerarObjetoVenta();
-            fv.ShowDialog();
-            if (fv.DialogResult == DialogResult.OK && fv.ObjetoVender is not null)
+            try
             {
-                if (this.plataforma == fv.ObjetoVender) MessageBox.Show("El producto ya se encuentra a la venta");
-                else this.plataforma.Agregar(fv.ObjetoVender); // this.plataforma += fv.ObjetoVender;
-                this.SerializarXml(FormAppMain.pathXmlCatalogo);
+                FormGenerarObjetoVenta fv = new FormGenerarObjetoVenta();
+                fv.ShowDialog();
+                if (fv.DialogResult == DialogResult.OK && fv.ObjetoVender is not null)
+                {
+                    if (this.plataforma == fv.ObjetoVender) MessageBox.Show("El producto ya se encuentra a la venta");
+                    else this.plataforma.Agregar(fv.ObjetoVender); // this.plataforma += fv.ObjetoVender;
+                    this.Serializar(this.plataforma.ObjetosEnVenta, FormAppMain.pathXmlCatalogo);
+                }
+                this.ActualizarCatalogo();
             }
-            this.ActualizarCatalogo();
+            catch (ExcepcionArchivoInvalido ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

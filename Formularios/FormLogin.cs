@@ -14,7 +14,7 @@ namespace Formularios
     /// <summary>
     /// La clase del login, que hereda del formulario del login padre. El usuario inicia sesión aqui.
     /// </summary>
-    public partial class FormLogin : FormLoginPadre
+    public partial class FormLogin : FormLoginPadre, ISerializadora<List<Usuario>>
     {
         private static string pathJson;
         private static string pathLog;
@@ -84,6 +84,10 @@ namespace Formularios
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (ExcepcionArchivoInvalido ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -94,15 +98,16 @@ namespace Formularios
 
             FormRegistros fr = new FormRegistros(FormLogin.plataforma);
             fr.ShowDialog();
-            this.SerializarJson();
+            this.Serializar(FormLogin.plataforma.Usuarios, FormLogin.pathJson);
         }
         private void FormLogin_Load(object sender, EventArgs e)
         {
-            if (File.Exists(FormLogin.pathJson)) this.DeserializarJson();
+            if (File.Exists(FormLogin.pathJson)) FormLogin.plataforma.Usuarios = this.Deserializar(FormLogin.pathJson);
         }
         private void FormLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.SerializarJson();
+
+            this.Serializar(FormLogin.plataforma.Usuarios, FormLogin.pathJson);
             DialogResult rta = MessageBox.Show("Seguro que desea cerrar la aplicación?"
                 , "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -122,24 +127,22 @@ namespace Formularios
         /// Intenta serializar la lista de usuarios de la plataforma en un path especifico, a json
         /// </summary>
         /// <returns>booleano representando si se pudo realizar la accion o no</returns>
-        private bool SerializarJson()
+        public void Serializar(List<Usuario> aSerializar, string ruta)
         {
             try
             {
                 JsonSerializerOptions options = new JsonSerializerOptions();
                 options.WriteIndented = true;
 
-                using (StreamWriter escritor = new StreamWriter(FormLogin.pathJson))
+                using (StreamWriter escritor = new StreamWriter(ruta))
                 {
-                    string objJson = JsonSerializer.Serialize(FormLogin.plataforma.Usuarios, options);
+                    string objJson = JsonSerializer.Serialize(aSerializar, options);
                     escritor.WriteLine(objJson);
                 }
-                return true;
             }
-            catch (Exception ex)
+            catch (ExcepcionArchivoInvalido ex)
             {
-                MessageBox.Show(ex.Message);
-                return false;
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -148,14 +151,17 @@ namespace Formularios
         /// de la plataforma actual
         /// </summary>
         /// <returns>booleano representando si se pudo realizar la accion o no</returns>
-        private bool DeserializarJson()
+        public List<Usuario> Deserializar(string ruta)
         {
-            using (StreamReader lector = new StreamReader(FormLogin.pathJson))
+            try
             {
-                string objLector = lector.ReadToEnd();
-                FormLogin.plataforma.Usuarios = (List<Usuario>)JsonSerializer.Deserialize(objLector, typeof(List<Usuario>));
+                using (StreamReader lector = new StreamReader(FormLogin.pathJson))
+                {
+                    string objLector = lector.ReadToEnd();
+                    return (List<Usuario>)JsonSerializer.Deserialize(objLector, typeof(List<Usuario>));
+                }
             }
-            return false;
+            catch { throw new ExcepcionArchivoInvalido("Imposible deserializar los usuarios"); }
         }
 
         /// <summary>

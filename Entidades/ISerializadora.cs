@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
-    public interface ISerializadoraXml<T> where T : class
+    public interface ISerializadora<T> where T : class
     {
         T Deserializar(string ruta);
         void Serializar(T obj, string ruta);

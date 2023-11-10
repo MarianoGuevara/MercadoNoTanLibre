@@ -14,7 +14,7 @@ namespace Formularios
     /// <summary>
     /// Esta clase ve los login previos en toda la app; solo para administradores
     /// </summary>
-    public partial class FormVerLogin : Form, ISerializadoraXml<string>
+    public partial class FormVerLogin : Form, ISerializadora<string>
     {
         /// <summary>
         /// Constructor. Setea configuraciones basicas de popiedades y controles
@@ -50,11 +50,14 @@ namespace Formularios
         /// </summary>
         public void Serializar(string aSerializar, string ruta)
         {
-
-            using (StreamWriter escritor = new StreamWriter(ruta, true))
+            try
             {
-                escritor.WriteLine(aSerializar);
+                using (StreamWriter escritor = new StreamWriter(ruta, true))
+                {
+                    escritor.WriteLine(aSerializar);
+                }
             }
+            catch { throw new ExcepcionArchivoInvalido("La serializacion del archivo de vista de logins es imposible; verifique ruta"); }
         }
 
         /// <summary>

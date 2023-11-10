@@ -44,6 +44,22 @@ namespace Formularios
             this.userActual = userLogueado;
             this.lblUserInfo.Text = $"Usuario '{this.userActual.nombre}', {this.userActual.perfil} ({DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year})";
             this.plataforma = plataforma;
+            this.lblVerLogins.Enabled = false;
+
+            switch (this.userActual.perfil)
+            {
+                case "administrador":
+                    this.lblVerLogins.Enabled = true;
+                    break;
+                case "supervisor":
+                    this.lblComprar.Enabled = false;
+                    break;
+                case "vendedor":
+                    this.lblVenderProducto.Enabled = false;
+                    this.lblEditarProducto.Enabled = false;
+                    this.lblComprar.Enabled = false;
+                    break;
+            }
 
             try
             {
@@ -161,24 +177,20 @@ namespace Formularios
         /// </summary>
         private void lblEditarProducto_Click(object sender, EventArgs e)
         {
-            if (this.userActual.perfil == "administrador" || this.userActual.perfil == "supervisor")
+            if (this.txtInfoProducto2.SelectedItems.Count > 0)
             {
-                if (this.txtInfoProducto2.SelectedItems.Count > 0)
-                {
-                    ListViewItem selectedItem = this.txtInfoProducto2.SelectedItems[0]; // Obtiene el objeto que se selecciono, pero en tipo ListViewItem
-                    int selectedIndex = this.txtInfoProducto2.Items.IndexOf(selectedItem);
+                ListViewItem selectedItem = this.txtInfoProducto2.SelectedItems[0]; // Obtiene el objeto que se selecciono, pero en tipo ListViewItem
+                int selectedIndex = this.txtInfoProducto2.Items.IndexOf(selectedItem);
 
-                    FormGenerarObjetoVenta fv = new FormGenerarObjetoVenta(this.plataforma.ObjetosEnVenta[selectedIndex]);
-                    fv.ShowDialog();
-                    if (fv.DialogResult == DialogResult.OK)
-                    {
-                        //this.plataforma.ObjetosEnVenta[selectedIndex] = fv.ObjetoVender;
-                        this.plataforma.Editar(fv.ObjetoVender, selectedIndex);
-                        this.ActualizarCatalogo();
-                    }
+                FormGenerarObjetoVenta fv = new FormGenerarObjetoVenta(this.plataforma.ObjetosEnVenta[selectedIndex]);
+                fv.ShowDialog();
+                if (fv.DialogResult == DialogResult.OK)
+                {
+                    //this.plataforma.ObjetosEnVenta[selectedIndex] = fv.ObjetoVender;
+                    this.plataforma.Editar(fv.ObjetoVender, selectedIndex);
+                    this.ActualizarCatalogo();
                 }
             }
-            else MessageBox.Show("La edicion de un producto no esta disponible para vendedores");
         }
 
         /// <summary>
@@ -290,7 +302,6 @@ namespace Formularios
                     {
                         this.plataforma.ObjetosVendidos.Add(this.plataforma.ObjetosEnVenta[selectedIndex]);
                         this.Serializar(this.plataforma.ObjetosVendidos, FormAppMain.pathXmlventasPrevias);
-                        //this.plataforma -= this.plataforma.ObjetosEnVenta[selectedIndex];
                         this.plataforma.Eliminar(this.plataforma.ObjetosEnVenta[selectedIndex]);
                         this.txtInfoProducto2.Items.Remove(selectedItem);
                     }
@@ -309,13 +320,8 @@ namespace Formularios
         /// </summary>
         private void lblVerLogins_Click(object sender, EventArgs e)
         {
-            if (userActual.perfil == "administrador")
-            {
-                FormVerLogin fv = new FormVerLogin();
-                fv.ShowDialog();
-            }
-            else MessageBox.Show("Debes ser un usuario de tipo administrador para poder" +
-                                 " visualizar esta funcion");
+            FormVerLogin fv = new FormVerLogin();
+            fv.ShowDialog();
         }
 
         /// <summary>

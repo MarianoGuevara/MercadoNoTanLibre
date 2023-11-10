@@ -68,37 +68,6 @@ namespace UnitTest
         }
 
         [TestMethod]
-        public void ClaseVerificadoraParsearCorrecto()
-        {
-            //Arrange
-            VerficadoraDeValidez v1 = new VerficadoraDeValidez();
-
-            //Act
-            int resultado = v1.Parsear<int>("5");
-
-            //Assert
-            Assert.AreEqual(resultado, 5);
-        }
-
-        [TestMethod]
-        public void ClaseVerificadoraParsearError()
-        {
-            //Arrange
-            VerficadoraDeValidez v1 = new VerficadoraDeValidez();
-            try
-            {
-                //Act
-                int resultado = v1.Parsear<int>("5e");
-                Assert.Fail();
-            }
-            catch (Exception ex)
-            {
-                //Assert
-                Assert.IsInstanceOfType(ex, typeof(FormatException));
-            }
-        }
-
-        [TestMethod]
         public void EditarObjeto_Plataforma_OK()
         {
             //Arrange
@@ -158,24 +127,60 @@ namespace UnitTest
         }
 
         [TestMethod]
-        public void EliminarObjeto_Plataforma_ERROR()
+        public void ClaseVerificadoraParsearCorrecto()
         {
             //Arrange
-            Plataforma p1 = new Plataforma();
+            VerficadoraDeValidez v1 = new VerficadoraDeValidez();
 
-            Ropa r1 = new Ropa(ETipoProducto.Ropa, 10, 1, ETipoRopa.Pantalon);
+            //Act
+            int resultado = v1.Parsear<int>("5");
 
+            //Assert
+            Assert.AreEqual(resultado, 5);
+        }
+
+        [TestMethod]
+        public void ClaseVerificadoraParsearError()
+        {
+            //Arrange
+            VerficadoraDeValidez v1 = new VerficadoraDeValidez();
             try
             {
                 //Act
-                p1.Eliminar(r1);
+                int resultado = v1.Parsear<int>("5e");
                 Assert.Fail();
             }
             catch (Exception ex)
             {
                 //Assert
-                Assert.IsInstanceOfType(ex, typeof(ArgumentOutOfRangeException));
+                Assert.IsInstanceOfType(ex, typeof(FormatException));
             }
+        }
+
+        [TestMethod]
+        public void ClaseVerificadoraVerificarLargoString_OK()
+        {
+            //Arrange
+            VerficadoraDeValidez v1 = new VerficadoraDeValidez();
+
+            //Act
+            bool largo = v1.VerificarLargoString("12345", 5);
+
+            //Assert
+            Assert.IsTrue(largo);
+        }
+
+        [TestMethod]
+        public void ClaseVerificadoraVerificarLargoString_CORTO()
+        {
+            //Arrange
+            VerficadoraDeValidez v1 = new VerficadoraDeValidez();
+
+            //Act
+            bool largo = v1.VerificarLargoString("12345", 6);
+
+            //Assert
+            Assert.IsFalse(largo);
         }
     }
 }

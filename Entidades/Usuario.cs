@@ -45,7 +45,13 @@ namespace Entidades
         }
         public static bool operator ==(Usuario a, Usuario b)
         {
-            return a.correo == b.correo && a.clave == b.clave;
+            bool retorno = false;
+            if (a is null && b is null) retorno = true;
+            else if (a is not null && b is not null)
+            {
+                 retorno = a.correo == b.correo && a.clave == b.clave;
+            }
+            return retorno;
         }
         public static bool operator !=(Usuario a, Usuario b)
         {

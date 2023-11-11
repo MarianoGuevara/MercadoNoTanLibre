@@ -13,6 +13,7 @@ namespace Entidades
         private static string stringConector;
         private SqlConnection conexionSql;
         private SqlCommand comunicadorSql;
+ 
         static NexoBaseDatos()
         {
             NexoBaseDatos.stringConector = Properties.Resources.StringConector;
@@ -22,7 +23,7 @@ namespace Entidades
             this.conexionSql = new SqlConnection(NexoBaseDatos.stringConector);
         }
 
-        public void AgregarObjeto(ObjetoEnVenta objeto)
+        public void AgregarEditarObjeto(ObjetoEnVenta objeto, string accion, ObjetoEnVenta original=null)
         {
             try
             {
@@ -46,9 +47,27 @@ namespace Entidades
                     this.comunicadorSql.Parameters.AddWithValue("@tipoElectrodomestico", tipoProductoEspecifico);
                     this.comunicadorSql.Parameters.AddWithValue("@marca", ((Electrodomestico)objeto).Marca);
 
-                    this.comunicadorSql.CommandText = "insert into Electrodomestico (tipoProducto,precio,durabilidad," +
+                    if (accion == "Agregar")
+                    {
+                        this.comunicadorSql.CommandText = "insert into Electrodomestico (tipoProducto,precio,durabilidad," +
                         "Descripcion,tipoElectrodomestico,marca) values" +
                         "(@tipoProducto,@precio,@durabilidad,@Descripcion,@tipoElectrodomestico,@marca)";
+                    }
+                    else
+                    {
+                        string tipoProductoStringOriginal = this.DeEnumParaString(original.TipoProducto);
+                        string tipoElectrodomesticoStringOriginal = ((Electrodomestico)original).DeEnumParaString(((Electrodomestico)original).TipoElectodomestico);
+
+                        this.comunicadorSql.Parameters.AddWithValue("@originalTipoProducto", tipoProductoStringOriginal);
+                        this.comunicadorSql.Parameters.AddWithValue("@originalPrecio", original.Precio);
+                        this.comunicadorSql.Parameters.AddWithValue("@originalTipoElectrodomestico", tipoElectrodomesticoStringOriginal);
+
+                        this.comunicadorSql.CommandText = "update Electrodomestico set " +
+                        "tipoProducto=@tipoProducto ,precio=@precio ,durabilidad=@durabilidad," +
+                        "Descripcion=@Descripcion, tipoElectrodomestico=@tipoElectrodomestico," +
+                        "marca=@marca where tipoProducto=@originalTipoProducto and precio=@originalPrecio " +
+                        "and tipoElectrodomestico=@originalTipoElectrodomestico";
+                    }
                 }
                 else if (objeto is Ropa)
                 {
@@ -56,9 +75,28 @@ namespace Entidades
                     this.comunicadorSql.Parameters.AddWithValue("@tipoRopa", tipoProductoEspecifico);
                     this.comunicadorSql.Parameters.AddWithValue("@color", ((Ropa)objeto).Color);
 
-                    this.comunicadorSql.CommandText = "insert into Ropa (tipoProducto,precio,durabilidad," +
+                    if (accion == "Agregar")
+                    {
+                        this.comunicadorSql.CommandText = "insert into Ropa (tipoProducto,precio,durabilidad," +
                         "Descripcion,tipoRopa,color) values" +
                         "(@tipoProducto,@precio,@durabilidad,@Descripcion,@tipoRopa,@color)";
+                    }
+                    else
+                    {
+                        string tipoProductoStringOriginal = this.DeEnumParaString(original.TipoProducto);
+                        string tipoRopaStringOriginal = ((Ropa)original).DeEnumParaString(((Ropa)original).TipoRopa);
+
+                        this.comunicadorSql.Parameters.AddWithValue("@originalTipoProducto", tipoProductoStringOriginal);
+                        this.comunicadorSql.Parameters.AddWithValue("@originalPrecio", original.Precio);
+                        this.comunicadorSql.Parameters.AddWithValue("@originalTipoRopa", tipoRopaStringOriginal);
+
+
+                        this.comunicadorSql.CommandText = "update Ropa set " +
+                        "tipoProducto=@tipoProducto ,precio=@precio ,durabilidad=@durabilidad," +
+                        "Descripcion=@Descripcion, tipoRopa=@tipoRopa," +
+                        "color=@color where tipoProducto=@originalTipoProducto and precio=@originalPrecio " +
+                        $"and tipoRopa=@originalTipoRopa";
+                    }
                 }
                 else if (objeto is Alimento)
                 {
@@ -66,14 +104,61 @@ namespace Entidades
                     this.comunicadorSql.Parameters.AddWithValue("@tipoAlimento", tipoProductoEspecifico);
                     this.comunicadorSql.Parameters.AddWithValue("@kcal", ((Alimento)objeto).Kcal);
 
-                    this.comunicadorSql.CommandText = "insert into Alimento (tipoProducto,precio,durabilidad," +
+                    if (accion == "Agregar")
+                    {
+                        this.comunicadorSql.CommandText = "insert into Alimento (tipoProducto,precio,durabilidad," +
                         "Descripcion,tipoAlimento,kcal) values" +
                         "(@tipoProducto,@precio,@durabilidad,@Descripcion,@tipoAlimento,@kcal)";
+                    }
+                    else
+                    {
+                        string tipoProductoStringOriginal = this.DeEnumParaString(original.TipoProducto);
+                        string tipoAlimentoStringOriginal = ((Alimento)original).DeEnumParaString(((Alimento)original).TipoAlimento);
+
+                        this.comunicadorSql.Parameters.AddWithValue("@originalTipoProducto", tipoProductoStringOriginal);
+                        this.comunicadorSql.Parameters.AddWithValue("@originalPrecio", original.Precio);
+                        this.comunicadorSql.Parameters.AddWithValue("@originalTipoAlimento", tipoAlimentoStringOriginal);
+
+                        this.comunicadorSql.CommandText = "update Alimento set " +
+                        "tipoProducto=@tipoProducto ,precio=@precio ,durabilidad=@durabilidad," +
+                        "Descripcion=@Descripcion, tipoAlimento=@tipoAlimento," +
+                        "kcal=@kcal where tipoProducto=@originalTipoProducto and precio=@originalPrecio " +
+                        "and tipoAlimento=@originalTipoAlimento";
+                    }
                 }
                 int filasModificadas = this.comunicadorSql.ExecuteNonQuery();
 
             }
-            catch { throw new ExcepcionErrorConBaseDatos("Error agregando objeto a base de datos") ; }
+            catch { throw new ExcepcionErrorConBaseDatos("Error agregando o editando objeto de base de datos") ; }
+            finally
+            {
+                if (this.conexionSql.State == System.Data.ConnectionState.Open)
+                {
+                    this.conexionSql.Close();
+                }
+            }
+        }
+        public void EliminarObjeto(ObjetoEnVenta objeto)
+        {
+            try
+            {
+                this.conexionSql.Open();
+
+                this.comunicadorSql = new SqlCommand();
+
+                this.comunicadorSql.CommandType = System.Data.CommandType.Text;
+                this.comunicadorSql.Connection = this.conexionSql;
+
+                string tipo = this.DeEnumParaString(objeto.TipoProducto);
+                this.comunicadorSql.Parameters.AddWithValue("@tipoProducto", tipo);
+                this.comunicadorSql.Parameters.AddWithValue("@precio", objeto.Precio);
+                this.comunicadorSql.Parameters.AddWithValue("@durabilidad", objeto.DurabilidadAproximada);
+                this.comunicadorSql.Parameters.AddWithValue("@Descripcion", objeto.Descripcion);
+
+
+
+            }
+            catch { throw new ExcepcionErrorConBaseDatos("Error agregando objeto a base de datos"); }
             finally
             {
                 if (this.conexionSql.State == System.Data.ConnectionState.Open)

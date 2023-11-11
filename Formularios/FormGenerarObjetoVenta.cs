@@ -183,7 +183,11 @@ namespace Formularios
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            finally { this.DialogResult = DialogResult.OK; }
+            finally 
+            {
+                if (this.objetoVender is not null) this.DialogResult = DialogResult.OK;
+                else this.DialogResult = DialogResult.Cancel;
+            }
         }
         private void btn1_Click(object sender, EventArgs e)
         {

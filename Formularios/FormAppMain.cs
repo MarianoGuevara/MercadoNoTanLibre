@@ -156,22 +156,13 @@ namespace Formularios
 
         private void FormAppMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            try
-            {
-                DialogResult rta = MessageBox.Show("Seguro que desea cerrar sesión?"
-                            , "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            DialogResult rta = MessageBox.Show("Seguro que desea cerrar sesión?"
+                        , "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-                //this.Serializar(this.plataforma.ObjetosEnVenta, FormAppMain.pathXmlCatalogo);
-
-                if (rta == DialogResult.Yes) DialogResult = DialogResult.OK;
-                else
-                {
-                    e.Cancel = true;
-                }
-            }
-            catch (ExcepcionArchivoInvalido ex)
+            if (rta == DialogResult.Yes) DialogResult = DialogResult.OK;
+            else
             {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
             }
         }
 
@@ -181,18 +172,29 @@ namespace Formularios
         /// </summary>
         private void lblEditarProducto_Click(object sender, EventArgs e)
         {
-            if (this.txtInfoProducto2.SelectedItems.Count > 0)
+            try
             {
-                ListViewItem selectedItem = this.txtInfoProducto2.SelectedItems[0]; // Obtiene el objeto que se selecciono, pero en tipo ListViewItem
-                int selectedIndex = this.txtInfoProducto2.Items.IndexOf(selectedItem);
-
-                FormGenerarObjetoVenta fv = new FormGenerarObjetoVenta(this.plataforma.ObjetosEnVenta[selectedIndex]);
-                fv.ShowDialog();
-                if (fv.DialogResult == DialogResult.OK)
+                if (this.txtInfoProducto2.SelectedItems.Count > 0)
                 {
-                    this.plataforma.Editar(fv.ObjetoVender, selectedIndex);
-                    this.ActualizarCatalogo();
+                    ListViewItem selectedItem = this.txtInfoProducto2.SelectedItems[0]; // Obtiene el objeto que se selecciono, pero en tipo ListViewItem
+                    int selectedIndex = this.txtInfoProducto2.Items.IndexOf(selectedItem);
+
+                    FormGenerarObjetoVenta fv = new FormGenerarObjetoVenta(this.plataforma.ObjetosEnVenta[selectedIndex]);
+                    fv.ShowDialog();
+                    if (fv.DialogResult == DialogResult.OK)
+                    {
+                        NexoBaseDatos n = new NexoBaseDatos();
+                        n.AgregarEditarObjeto(fv.ObjetoVender, "Editar", this.plataforma.ObjetosEnVenta[selectedIndex]);
+
+                        this.plataforma.Editar(fv.ObjetoVender, selectedIndex);
+
+                        this.ActualizarCatalogo();
+                    }
                 }
+            }
+            catch (ExcepcionErrorConBaseDatos ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -353,7 +355,7 @@ namespace Formularios
                     {
                         this.plataforma.Agregar(fv.ObjetoVender); // this.plataforma += fv.ObjetoVender;
                         NexoBaseDatos n = new NexoBaseDatos();
-                        n.AgregarObjeto(fv.ObjetoVender);
+                        n.AgregarEditarObjeto(fv.ObjetoVender, "Agregar");
                     }
                 }
                 this.ActualizarCatalogo();

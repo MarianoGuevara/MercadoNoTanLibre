@@ -22,7 +22,7 @@ namespace Formularios
     /// </summary>
     public partial class FormAppMain : Form, ISerializadora<List<ObjetoEnVenta>>
     {
-        private static string pathXmlCatalogo = Environment.CurrentDirectory + "/catalogo.xml";
+        //private static string pathXmlCatalogo = Environment.CurrentDirectory + "/catalogo.xml";
         private static string pathXmlventasPrevias = Environment.CurrentDirectory + "/ventasPrevias.xml";
         private Usuario userActual;
         private Plataforma plataforma;
@@ -63,16 +63,19 @@ namespace Formularios
 
             try
             {
-                if (File.Exists(FormAppMain.pathXmlCatalogo))
+                if (File.Exists(FormAppMain.pathXmlventasPrevias))
                 {
                     this.plataforma.ObjetosVendidos = this.Deserializar(FormAppMain.pathXmlventasPrevias);
                 }
-                if (File.Exists(FormAppMain.pathXmlventasPrevias))
-                {
-                    this.plataforma.ObjetosEnVenta = this.Deserializar(FormAppMain.pathXmlCatalogo);
-                }
+
+                NexoBaseDatos n = new NexoBaseDatos();
+                this.plataforma.ObjetosEnVenta = n.DeserializarBaseDeDatos();
             }
             catch (ExcepcionArchivoInvalido ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (ExcepcionErrorConBaseDatos ex)
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -158,7 +161,8 @@ namespace Formularios
                 DialogResult rta = MessageBox.Show("Seguro que desea cerrar sesión?"
                             , "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-                this.Serializar(this.plataforma.ObjetosEnVenta, FormAppMain.pathXmlCatalogo);
+                //this.Serializar(this.plataforma.ObjetosEnVenta, FormAppMain.pathXmlCatalogo);
+
                 if (rta == DialogResult.Yes) DialogResult = DialogResult.OK;
                 else
                 {
@@ -186,7 +190,6 @@ namespace Formularios
                 fv.ShowDialog();
                 if (fv.DialogResult == DialogResult.OK)
                 {
-                    //this.plataforma.ObjetosEnVenta[selectedIndex] = fv.ObjetoVender;
                     this.plataforma.Editar(fv.ObjetoVender, selectedIndex);
                     this.ActualizarCatalogo();
                 }
@@ -352,8 +355,6 @@ namespace Formularios
                         NexoBaseDatos n = new NexoBaseDatos();
                         n.AgregarObjeto(fv.ObjetoVender);
                     }
-
-                    this.Serializar(this.plataforma.ObjetosEnVenta, FormAppMain.pathXmlCatalogo);
                 }
                 this.ActualizarCatalogo();
             }

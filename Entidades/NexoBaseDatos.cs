@@ -82,7 +82,35 @@ namespace Entidades
                 }
             }
         }
+        public List<ObjetoEnVenta> DeserializarBaseDeDatos()
+        {
+            List<ObjetoEnVenta> lista = new List<ObjetoEnVenta>();
+            try
+            {
+                this.comunicadorSql = new SqlCommand();
+                this.comunicadorSql.CommandType = System.Data.CommandType.Text;
+                this.comunicadorSql.Connection = this.conexionSql;
+                this.conexionSql.Open();
 
+
+                List<ObjetoEnVenta> listaElecto = this.DeserializarProductosEspecifico("E");
+                List<ObjetoEnVenta> listaRopa = this.DeserializarProductosEspecifico("R");
+                List<ObjetoEnVenta> listaAlimentos = this.DeserializarProductosEspecifico("A");
+
+                lista = this.UnirListaObjetos(listaElecto, listaRopa);
+                lista = this.UnirListaObjetos(lista, listaAlimentos);
+
+                return lista;
+            }
+            catch { throw new ExcepcionErrorConBaseDatos("Error al traer el catalogo desde la base de datos"); }
+            finally
+            {
+                if (this.conexionSql.State == System.Data.ConnectionState.Open)
+                {
+                    this.conexionSql.Close();
+                }
+            }
+        }
         public List<ObjetoEnVenta> DeserializarProductosEspecifico(string producto)
         {
             List<ObjetoEnVenta> lista = new List<ObjetoEnVenta>();
@@ -109,6 +137,7 @@ namespace Entidades
 
                         Electrodomestico e2 = new Electrodomestico(tipoProducto, precio, 
                                                 durabilidad, tipoElectrodomestico, marca);
+                        e2.Descripcion = Descripcion;
                         lista.Add(e2);
                         break;
                     case "R":
@@ -116,39 +145,35 @@ namespace Entidades
                         ETipoRopa tipoRopa = r.DeStringParaEnum((string)lector["tipoRopa"]);
                         string color = (string)lector["color"];
 
-                        Ropa e2 = new Ropa(tipoProducto, precio,
-                                                durabilidad, tipoElectrodomestico, marca);
-                        lista.Add(e2);
+                        Ropa r2 = new Ropa(tipoProducto, precio,
+                                                durabilidad, tipoRopa, color);
+                        r2.Descripcion = Descripcion;
+                        lista.Add(r2);
                         break;
                     case "A":
-                        double sueldo = (double)lector["sueldo"];
-                        Trabajador t = new Trabajador(nombre, edad, tipoUsuario, contrasena,
-                                                      codigoTrabajador, sueldo);
+                        Alimento a = new Alimento();
+                        ETipoAlimento tipoAlimento = a.DeStringParaEnum((string)lector["tipoAlimento"]);
+                        int kcal = (int)lector["kcal"];
+
+                        Alimento a2 = new Alimento(tipoProducto, precio,
+                                                durabilidad, tipoAlimento, kcal);
+                        a2.Descripcion = Descripcion;
+                        lista.Add(a2);
                         break;
                 }
-
             }
+            lector.Close();
             return lista;
         }
-
-        public List<ObjetoEnVenta> DeserializarBaseDeDatos()
+        private List<ObjetoEnVenta> UnirListaObjetos(List<ObjetoEnVenta> l1, List<ObjetoEnVenta> l2)
         {
-            List<ObjetoEnVenta> lista = new List<ObjetoEnVenta>();
-            try
+            foreach (ObjetoEnVenta o in l2)
             {
-                this.comunicadorSql = new SqlCommand();
-                this.comunicadorSql.CommandType = System.Data.CommandType.Text;
-                this.comunicadorSql.Connection = this.conexionSql;
-                this.conexionSql.Open();
-
-
-                return lista;
+                l1.Add(o);
             }
-            catch { throw new ExcepcionErrorConBaseDatos("Error al traer el catalogo desde la base de datos"); }
-
+            List<ObjetoEnVenta> lista = l1;
+            return lista;
         }
-
-
 
         public string DeEnumParaString(ETipoProducto tipo)
         {

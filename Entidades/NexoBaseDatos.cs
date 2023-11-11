@@ -155,10 +155,37 @@ namespace Entidades
                 this.comunicadorSql.Parameters.AddWithValue("@durabilidad", objeto.DurabilidadAproximada);
                 this.comunicadorSql.Parameters.AddWithValue("@Descripcion", objeto.Descripcion);
 
+                string tipoProductoEspecifico = string.Empty;
+                if (objeto is Electrodomestico)
+                {
+                    string tipoElectrodomestico = ((Electrodomestico)objeto).DeEnumParaString(((Electrodomestico)objeto).TipoElectodomestico);
+                    this.comunicadorSql.Parameters.AddWithValue("@tipoElectrodomestico", tipoElectrodomestico);
+                    this.comunicadorSql.Parameters.AddWithValue("@marca", ((Electrodomestico)objeto).Marca);
 
+                    this.comunicadorSql.CommandText = "delete from Electrodomestico" +
+                    " where tipoProducto=@tipoProducto and precio=@precio and tipoElectrodomestico=@tipoElectrodomestico";
+                }
+                else if (objeto is Ropa)
+                {
+                    tipoProductoEspecifico = ((Ropa)objeto).DeEnumParaString(((Ropa)objeto).TipoRopa);
+                    this.comunicadorSql.Parameters.AddWithValue("@tipoRopa", tipoProductoEspecifico);
+                    this.comunicadorSql.Parameters.AddWithValue("@color", ((Ropa)objeto).Color);
 
+                    this.comunicadorSql.CommandText = "delete from Ropa" +
+                    " where tipoProducto=@tipoProducto and precio=@precio and tipoRopa=@tipoRopa";
+                }
+                else if (objeto is Alimento)
+                {
+                    tipoProductoEspecifico = ((Alimento)objeto).DeEnumParaString(((Alimento)objeto).TipoAlimento);
+                    this.comunicadorSql.Parameters.AddWithValue("@tipoAlimento", tipoProductoEspecifico);
+                    this.comunicadorSql.Parameters.AddWithValue("@kcal", ((Alimento)objeto).Kcal);
+
+                    this.comunicadorSql.CommandText = "delete from Alimento" +
+                    " where tipoProducto=@tipoProducto and precio=@precio and tipoAlimento=@tipoAlimento";
+                }
+                int filasModificadas = this.comunicadorSql.ExecuteNonQuery();
             }
-            catch { throw new ExcepcionErrorConBaseDatos("Error agregando objeto a base de datos"); }
+            catch { throw new ExcepcionErrorConBaseDatos("Error eliminando objeto de base de datos"); }
             finally
             {
                 if (this.conexionSql.State == System.Data.ConnectionState.Open)

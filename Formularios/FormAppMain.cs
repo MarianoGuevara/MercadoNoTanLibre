@@ -307,6 +307,10 @@ namespace Formularios
                     {
                         this.plataforma.ObjetosVendidos.Add(this.plataforma.ObjetosEnVenta[selectedIndex]);
                         this.Serializar(this.plataforma.ObjetosVendidos, FormAppMain.pathXmlventasPrevias);
+
+                        NexoBaseDatos n = new NexoBaseDatos();
+                        n.EliminarObjeto(this.plataforma.ObjetosEnVenta[selectedIndex]);
+
                         this.plataforma.Eliminar(this.plataforma.ObjetosEnVenta[selectedIndex]);
                         this.txtInfoProducto2.Items.Remove(selectedItem);
                     }
@@ -317,7 +321,10 @@ namespace Formularios
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
+            catch (ExcepcionErrorConBaseDatos ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>

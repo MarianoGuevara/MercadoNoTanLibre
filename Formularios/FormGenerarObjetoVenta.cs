@@ -144,7 +144,7 @@ namespace Formularios
                 if (this.cbCaract2.SelectedIndex != -1 && this.indiceTipoObjeto != -1
                 && verificador.VerificarLargoString(this.txtCaract1.Text, 1) &&
                 verificador.VerificarLargoString(this.rbDescrpcion.Text, 20) &&
-                this.indiceTipoObjeto != -1)
+                this.indiceTipoObjeto != -1 && this.rbDescrpcion.Text.Length < 300)
                 {
                     switch (this.indiceTipoObjeto)
                     {

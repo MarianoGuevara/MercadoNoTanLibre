@@ -10,7 +10,7 @@ namespace Entidades
     /// Clase ropa. Hija de ObjetoEnVenta. Es uno de los objetos que se instanciarán
     /// Heredando las caracteristicas de su padre, y teniendo las suyas propias
     /// </summary>
-    public sealed class Ropa : ObjetoEnVenta
+    public sealed class Ropa : ObjetoEnVenta, IConversorImplicito<ETipoRopa>
     {
         private ETipoRopa tipoRopa;
         private string color;
@@ -103,5 +103,43 @@ namespace Entidades
         {
             return $"ROPA YA COMPRADA | " + this.ToString();
         }
+
+        public string DeEnumParaString(ETipoRopa obj)
+        {
+            string retorno = string.Empty;
+            switch (obj)
+            {
+                case ETipoRopa.Pantalon:
+                    retorno = "Pantalon";
+                    break;
+                case ETipoRopa.Zapatos:
+                    retorno = "Zapatos";
+                    break;
+                case ETipoRopa.Remera:
+                    retorno = "Remera";
+                    break;
+            }
+            return retorno;
+        }
+
+        public ETipoRopa DeStringParaEnum(string obj)
+        {
+            ETipoRopa eTipoElectro = ETipoRopa.Pantalon;
+            switch (obj)
+            {
+                case "Pantalon":
+                    eTipoElectro = ETipoRopa.Pantalon;
+                    break;
+                case "Zapatos":
+                    eTipoElectro = ETipoRopa.Zapatos;
+                    break;
+                case "Remera":
+                    eTipoElectro = ETipoRopa.Remera;
+                    break;
+            }
+            return eTipoElectro;
+        }
+
+
     }
 }

@@ -10,7 +10,7 @@ namespace Entidades
     /// Clase alimento. Hija de ObjetoEnVenta. Es uno de los objetos que se instanciarán
     /// Heredando las caracteristicas de su padre, y teniendo las suyas propias
     /// </summary>
-    public sealed class Alimento : ObjetoEnVenta
+    public sealed class Alimento : ObjetoEnVenta, IConversorImplicito<ETipoAlimento>
     {
         private ETipoAlimento tipoAlimento;
         private int kcal;
@@ -103,5 +103,43 @@ namespace Entidades
         {
             return $"ALIMENTO YA COMPRADO | " + this.ToString();
         }
+
+        public string DeEnumParaString(ETipoAlimento obj)
+        {
+            string retorno = string.Empty;
+            switch (obj)
+            {
+                case ETipoAlimento.Fruta:
+                    retorno = "Fruta";
+                    break;
+                case ETipoAlimento.Verdura:
+                    retorno = "Verdura";
+                    break;
+                case ETipoAlimento.Carne:
+                    retorno = "Carne";
+                    break;
+            }
+            return retorno;
+        }
+
+        public ETipoAlimento DeStringParaEnum(string obj)
+        {
+            ETipoAlimento eTipoElectro = ETipoAlimento.Carne;
+            switch (obj)
+            {
+                case "Carne":
+                    eTipoElectro = ETipoAlimento.Carne;
+                    break;
+                case "Fruta":
+                    eTipoElectro = ETipoAlimento.Fruta;
+                    break;
+                case "Verdura":
+                    eTipoElectro = ETipoAlimento.Verdura;
+                    break;
+            }
+            return eTipoElectro;
+        }
+
+
     }
 }

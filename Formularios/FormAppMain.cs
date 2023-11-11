@@ -346,12 +346,22 @@ namespace Formularios
                 if (fv.DialogResult == DialogResult.OK && fv.ObjetoVender is not null)
                 {
                     if (this.plataforma == fv.ObjetoVender) MessageBox.Show("El producto ya se encuentra a la venta");
-                    else this.plataforma.Agregar(fv.ObjetoVender); // this.plataforma += fv.ObjetoVender;
+                    else
+                    {
+                        this.plataforma.Agregar(fv.ObjetoVender); // this.plataforma += fv.ObjetoVender;
+                        NexoBaseDatos n = new NexoBaseDatos();
+                        n.AgregarObjeto(fv.ObjetoVender);
+                    }
+
                     this.Serializar(this.plataforma.ObjetosEnVenta, FormAppMain.pathXmlCatalogo);
                 }
                 this.ActualizarCatalogo();
             }
             catch (ExcepcionArchivoInvalido ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (ExcepcionErrorConBaseDatos ex)
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

@@ -10,7 +10,7 @@ namespace Entidades
     /// Clase electrodomestico. Hija de ObjetoEnVenta. Es uno de los objetos que se instanciarán
     /// Heredando las caracteristicas de su padre, y teniendo las suyas propias
     /// </summary>
-    public sealed class Electrodomestico : ObjetoEnVenta
+    public sealed class Electrodomestico : ObjetoEnVenta, IConversorImplicito<ETipoElecto>
     {
         private ETipoElecto tipoElectrodomestico;
         private string marca;
@@ -101,6 +101,42 @@ namespace Entidades
         public override string DescripcionProducto(bool venta)
         {
             return $"ELECTRODOMESTICO YA COMPRADO | " + this.ToString();
+        }
+
+        public string DeEnumParaString(ETipoElecto obj)
+        {
+            string retorno = string.Empty;
+            switch(obj) 
+            {
+                case ETipoElecto.Lavaropa:
+                    retorno = "Lavaropa";
+                    break;
+                case ETipoElecto.Ventilador:
+                    retorno = "Ventilador";
+                    break;
+                case ETipoElecto.Television:
+                    retorno = "Television";
+                    break;
+            }
+            return retorno;
+        }
+
+        public ETipoElecto DeStringParaEnum(string obj)
+        {
+            ETipoElecto eTipoElectro = ETipoElecto.Lavaropa;
+            switch (obj)
+            {
+                case "Lavaropa":
+                    eTipoElectro = ETipoElecto.Lavaropa;
+                    break;
+                case "Ventilador":
+                    eTipoElectro = ETipoElecto.Ventilador;
+                    break;
+                case "Television":
+                    eTipoElectro = ETipoElecto.Television;
+                    break;
+            }
+            return eTipoElectro;
         }
     }
 }

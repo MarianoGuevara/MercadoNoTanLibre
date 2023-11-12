@@ -184,7 +184,7 @@ namespace Formularios
                     if (fv.DialogResult == DialogResult.OK)
                     {
                         NexoBaseDatos n = new NexoBaseDatos();
-                        n.AgregarEditarObjeto(fv.ObjetoVender, "Editar", this.plataforma.ObjetosEnVenta[selectedIndex]);
+                        n.Editar(fv.ObjetoVender, this.plataforma.ObjetosEnVenta[selectedIndex]);
 
                         this.plataforma.Editar(fv.ObjetoVender, selectedIndex);
 
@@ -309,7 +309,7 @@ namespace Formularios
                         this.Serializar(this.plataforma.ObjetosVendidos, FormAppMain.pathXmlventasPrevias);
 
                         NexoBaseDatos n = new NexoBaseDatos();
-                        n.EliminarObjeto(this.plataforma.ObjetosEnVenta[selectedIndex]);
+                        n.Eliminar(this.plataforma.ObjetosEnVenta[selectedIndex]);
 
                         this.plataforma.Eliminar(this.plataforma.ObjetosEnVenta[selectedIndex]);
                         this.txtInfoProducto2.Items.Remove(selectedItem);
@@ -362,7 +362,7 @@ namespace Formularios
                     {
                         this.plataforma.Agregar(fv.ObjetoVender); // this.plataforma += fv.ObjetoVender;
                         NexoBaseDatos n = new NexoBaseDatos();
-                        n.AgregarEditarObjeto(fv.ObjetoVender, "Agregar");
+                        n.Agregar(fv.ObjetoVender);
                     }
                 }
                 this.ActualizarCatalogo();
@@ -372,6 +372,10 @@ namespace Formularios
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (ExcepcionErrorConBaseDatos ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (ExcepcionSobrecargaInvalida ex)
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

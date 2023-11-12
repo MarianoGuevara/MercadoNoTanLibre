@@ -11,9 +11,9 @@ namespace Entidades
         void Agregar(T objetoDelCrud);
         void Eliminar(T objetoDelCrud);
         void Editar(T objetoEditCrud, int indiceListaCrud);
+        void Editar(T objetoEditCrud, T objetoOriginal);
 
         // no implementa 'Read' ya que cada CRUD tiene una manera distinta de mostrar 
-        // su info, y necesita distintos parametros o etc, como un control tipo richbox, que 
-        // en clases no existe
+        // su info, y necesita distintos parametros o etc.
     }
 }

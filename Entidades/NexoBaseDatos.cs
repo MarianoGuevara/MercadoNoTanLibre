@@ -8,7 +8,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Entidades
 {
-    public class NexoBaseDatos : IConversorImplicito<ETipoProducto>
+    public class NexoBaseDatos : IConversorImplicito<ETipoProducto>, ICrud<ObjetoEnVenta>
     {
         private static string stringConector;
         private SqlConnection conexionSql;
@@ -22,8 +22,36 @@ namespace Entidades
         {
             this.conexionSql = new SqlConnection(NexoBaseDatos.stringConector);
         }
+        public void Agregar(ObjetoEnVenta objetoDelCrud)
+        {
+            try
+            {
+                this.AgregarEditarObjeto(objetoDelCrud, "Agregar");
+            }
+            catch { throw; }
+        }
+        public void Editar(ObjetoEnVenta objetoEditCrud, int indice)
+        {
+            throw new ExcepcionSobrecargaInvalida("Imposible usar esta sobrecarga en la base de datos; indice inexistente");
+        }
+        public void Editar(ObjetoEnVenta objetoEditCrud, ObjetoEnVenta original)
+        {
+            try
+            {
+                this.AgregarEditarObjeto(objetoEditCrud, "Editar", original);
+            }
+            catch { throw; }
+        }
+        public void Eliminar(ObjetoEnVenta objetoDelCrud)
+        {
+            try
+            {
+                this.EliminarObjeto(objetoDelCrud);
+            }
+            catch { throw; }
+        }
 
-        public void AgregarEditarObjeto(ObjetoEnVenta objeto, string accion, ObjetoEnVenta original=null)
+        private void AgregarEditarObjeto(ObjetoEnVenta objeto, string accion, ObjetoEnVenta original=null)
         {
             try
             {
@@ -138,7 +166,7 @@ namespace Entidades
                 }
             }
         }
-        public void EliminarObjeto(ObjetoEnVenta objeto)
+        private void EliminarObjeto(ObjetoEnVenta objeto)
         {
             try
             {

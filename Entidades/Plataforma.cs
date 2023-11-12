@@ -153,5 +153,10 @@ namespace Entidades
         {
             this.ObjetosEnVenta[indiceListaCrud] = o;
         }
+
+        public void Editar(ObjetoEnVenta o, ObjetoEnVenta o2)
+        {
+            throw new ExcepcionSobrecargaInvalida("No se puede usar la sobrecarga deseada con esta clase; se necesita un indice");
+        }
     }
 }

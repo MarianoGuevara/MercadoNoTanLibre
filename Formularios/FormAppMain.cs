@@ -183,12 +183,16 @@ namespace Formularios
                     fv.ShowDialog();
                     if (fv.DialogResult == DialogResult.OK)
                     {
-                        NexoBaseDatos n = new NexoBaseDatos();
-                        n.Editar(fv.ObjetoVender, this.plataforma.ObjetosEnVenta[selectedIndex]);
+                        if (this.plataforma.DescripcionUnica(fv.ObjetoVender) == false)
+                        {
+                            NexoBaseDatos n = new NexoBaseDatos();
+                            n.Editar(fv.ObjetoVender, this.plataforma.ObjetosEnVenta[selectedIndex]);
 
-                        this.plataforma.Editar(fv.ObjetoVender, selectedIndex);
+                            this.plataforma.Editar(fv.ObjetoVender, selectedIndex);
 
-                        this.ActualizarCatalogo();
+                            this.ActualizarCatalogo();
+                        }
+                        else MessageBox.Show("la descripcion debe ser unica e irrepetible");
                     }
                 }
             }
@@ -358,12 +362,13 @@ namespace Formularios
                 if (fv.DialogResult == DialogResult.OK && fv.ObjetoVender is not null)
                 {
                     if (this.plataforma == fv.ObjetoVender) MessageBox.Show("El producto ya se encuentra a la venta");
-                    else
+                    else if (this.plataforma.DescripcionUnica(fv.ObjetoVender) == false)
                     {
                         this.plataforma.Agregar(fv.ObjetoVender); // this.plataforma += fv.ObjetoVender;
                         NexoBaseDatos n = new NexoBaseDatos();
                         n.Agregar(fv.ObjetoVender);
                     }
+                    else MessageBox.Show("Todos los productos deben tener una descripcion propia y unica.");
                 }
                 this.ActualizarCatalogo();
             }

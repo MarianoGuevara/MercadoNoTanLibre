@@ -111,23 +111,6 @@ namespace Formularios
         }
 
         /// <summary>
-        /// Indica si las propiedades basicas de un producto potencial son validas o no;
-        /// precio, durabilidad, tipo
-        /// </summary>
-        /// <returns>Devuelve un bool con el resultado de la verificacion</returns>
-        private bool VerificarCreacionProducto()
-        {
-            VerficadoraDeValidez verificador = new VerficadoraDeValidez();
-            try
-            {
-                verificador.Parsear<double>(this.txtMail.Text);
-                verificador.Parsear<short>(this.txtPassword.Text);
-                return this.indiceTipoObjeto != -1;
-            }
-            catch { throw new ExcepcionDatosInvalidos("Algun dato del producto es inválido"); }
-        }
-
-        /// <summary>
         /// Crea un objeto de la jerarquia, si todos los campos llenados por el usuario 
         /// son validos. Si es así, cierra el formulario
         /// </summary>
@@ -138,14 +121,15 @@ namespace Formularios
                 VerficadoraDeValidez verificador = new VerficadoraDeValidez();
 
                 double precio = verificador.Parsear<double>(this.txtMail.Text);
-                short durabilidad = verificador.Parsear<short>(this.txtPassword.Text);
-                //this.VerificarCreacionProducto();
 
-                if (this.cbCaract2.SelectedIndex != -1 && this.indiceTipoObjeto != -1
-                && verificador.VerificarLargoString(this.txtCaract1.Text, 1) &&
+                if (this.cbCaract2.SelectedIndex != -1 && this.indiceTipoObjeto != -1 &&
+                verificador.VerificarLargoString(this.txtCaract1.Text, 1) &&
                 verificador.VerificarLargoString(this.rbDescrpcion.Text, 20) &&
+                verificador.VerificarLargoString(this.txtPassword.Text, 1, 4) &&
+                short.TryParse(this.txtPassword.Text, out _) &&
                 this.indiceTipoObjeto != -1 && this.rbDescrpcion.Text.Length < 300)
                 {
+                    short durabilidad = verificador.Parsear<short>(this.txtPassword.Text);
                     switch (this.indiceTipoObjeto)
                     {
                         case 0:
@@ -157,19 +141,13 @@ namespace Formularios
                             this.objetoVender = new Alimento(ETipoProducto.Alimento, precio, durabilidad,
                                                             (ETipoAlimento)this.indiceCaractObjeto,
                                                             verificador.Parsear<int>(this.txtCaract1.Text));
-                            this.objetoVender.Descripcion = this.rbDescrpcion.Text;
-                            
-                            //else throw new ExcepcionDatosInvalidos("Algun/os dato/s esta/n en formato invalido. Imposible vender eso");
                             break;
                         case 2:
                             this.objetoVender = new Ropa(ETipoProducto.Ropa, precio, durabilidad,
                                                         (ETipoRopa)this.indiceCaractObjeto, this.txtCaract1.Text);
                             break;
                     }
-                    if (this.objetoVender is not null)
-                    {
-                        this.objetoVender.Descripcion = this.rbDescrpcion.Text;
-                    }
+                    if (this.objetoVender is not null) this.objetoVender.Descripcion = this.rbDescrpcion.Text;
                     else throw new ExcepcionDatosInvalidos("El objeto no se pudo crear. Por favor, revise todos los datos");
                 }
                 else throw new ExcepcionDatosInvalidos("Descripcion o atributo propio de objeto muy cortos o incompletos" +

@@ -158,5 +158,25 @@ namespace Entidades
         {
             throw new ExcepcionSobrecargaInvalida("No se puede usar la sobrecarga deseada con esta clase; se necesita un indice");
         }
+
+        /// <summary>
+        /// Metodo que verifica la uniquidad de una descripcion
+        /// ya que si no se guarda rápido, este valor se pierde
+        /// </summary>
+        public bool DescripcionUnica(ObjetoEnVenta o)
+        {
+            bool retorno = false;
+            int reiteraciones = 0;
+            foreach (ObjetoEnVenta objeto in this.ObjetosEnVenta)
+            {
+                if (objeto.Descripcion == o.Descripcion) reiteraciones += 1;
+            }
+
+            if (reiteraciones > 0) retorno = true;
+            //if (stringParaEditar == "no") if (reiteraciones > 0) retorno = true;
+            //else if (reiteraciones > 0) retorno = true;
+            
+            return retorno;
+        }
     }
 }

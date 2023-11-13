@@ -24,6 +24,14 @@ namespace Entidades
             if (dato.Length >= largoMinimo) resultado = true;
             return resultado; 
         }
+
+        public bool VerificarLargoString(string dato, int largoMinimo, int largoMaximo)
+        {
+            bool resultado = false;
+            if (dato.Length >= largoMinimo && dato.Length <= largoMaximo) resultado = true;
+            return resultado;
+        }
+
         /// <summary>
         /// Verifica, con expresiones regulares, si un string es valido para ser un correo o no 
         /// </summary>

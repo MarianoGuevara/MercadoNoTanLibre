@@ -166,17 +166,29 @@ namespace Entidades
         public bool DescripcionUnica(ObjetoEnVenta o)
         {
             bool retorno = false;
-            int reiteraciones = 0;
+            //int reiteraciones = 0;
             foreach (ObjetoEnVenta objeto in this.ObjetosEnVenta)
             {
-                if (objeto.Descripcion == o.Descripcion) reiteraciones += 1;
+                if (objeto.Descripcion == o.Descripcion) retorno = true ;
             }
 
-            if (reiteraciones > 0) retorno = true;
             //if (stringParaEditar == "no") if (reiteraciones > 0) retorno = true;
             //else if (reiteraciones > 0) retorno = true;
             
             return retorno;
         }
+
+        public bool DescripcionUnica(ObjetoEnVenta o, ObjetoEnVenta o2)
+        {
+            bool retorno = false;
+            //int reiteraciones = 0;
+            foreach (ObjetoEnVenta objeto in this.ObjetosEnVenta)
+            {
+                if (objeto.Descripcion == o.Descripcion && objeto != o2) retorno = true;
+            }
+            //if (reiteraciones > 0) retorno = true;
+            return retorno;
+        }
+
     }
 }

@@ -183,7 +183,7 @@ namespace Formularios
                     fv.ShowDialog();
                     if (fv.DialogResult == DialogResult.OK)
                     {
-                        if (this.plataforma.DescripcionUnica(fv.ObjetoVender) == false)
+                        if (this.plataforma.DescripcionUnica(fv.ObjetoVender, this.plataforma.ObjetosEnVenta[selectedIndex]) == false)
                         {
                             NexoBaseDatos n = new NexoBaseDatos();
                             n.Editar(fv.ObjetoVender, this.plataforma.ObjetosEnVenta[selectedIndex]);

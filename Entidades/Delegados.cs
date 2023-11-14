@@ -1,0 +1,9 @@
+﻿using Entidades;
+
+public delegate string DelegadoMostrar();
+
+public delegate bool DelegadoIgualdad(object? o);
+
+public delegate bool DelegadoVerificarString(string str, int entero); 
+
+public delegate void DelegadoInformarParseoFallido(string str);

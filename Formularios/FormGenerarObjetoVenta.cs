@@ -21,6 +21,8 @@ namespace Formularios
         private ObjetoEnVenta objetoVender;
         private int indiceTipoObjeto;
         private int indiceCaractObjeto;
+
+        private event DelegadoInformarParseoFallido EventoDatoInvalido;
         public ObjetoEnVenta ObjetoVender { get { return this.objetoVender; } }
 
         /// <summary>
@@ -39,6 +41,13 @@ namespace Formularios
             this.comboBox1.Items.Add("Electrodomestico");
             this.comboBox1.Items.Add("Alimento");
             this.comboBox1.Items.Add("Ropa");
+
+            this.EventoDatoInvalido += new DelegadoInformarParseoFallido(this.MostrarErrorNumerico);
+        }
+
+        private void MostrarErrorNumerico(string parseoFallido)
+        {
+            MessageBox.Show($"Parseo del dato incorrecto: {parseoFallido}, intentelo nuevamente","Error",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
         /// <summary>
@@ -69,6 +78,8 @@ namespace Formularios
                 this.cbCaract2.SelectedIndex = (int)(((Ropa)obj).TipoRopa);
             }
         }
+
+        //private void MostrarMensajeNumeroInvalido()
 
         /// <summary>
         /// Se revisa si en el combobox correspondiente se seleccionó una opción. 
@@ -121,15 +132,14 @@ namespace Formularios
                 VerficadoraDeValidez verificador = new VerficadoraDeValidez();
 
                 double precio = verificador.Parsear<double>(this.txtMail.Text);
+                short durabilidad = verificador.Parsear<short>(this.txtPassword.Text);
 
                 if (this.cbCaract2.SelectedIndex != -1 && this.indiceTipoObjeto != -1 &&
                 verificador.VerificarLargoString(this.txtCaract1.Text, 1) &&
                 verificador.VerificarLargoString(this.rbDescrpcion.Text, 20) &&
                 verificador.VerificarLargoString(this.txtPassword.Text, 1, 4) &&
-                short.TryParse(this.txtPassword.Text, out _) &&
-                this.indiceTipoObjeto != -1 && this.rbDescrpcion.Text.Length < 300)
+                this.rbDescrpcion.Text.Length < 300)
                 {
-                    short durabilidad = verificador.Parsear<short>(this.txtPassword.Text);
                     switch (this.indiceTipoObjeto)
                     {
                         case 0:
@@ -150,12 +160,11 @@ namespace Formularios
                     if (this.objetoVender is not null) this.objetoVender.Descripcion = this.rbDescrpcion.Text;
                     else throw new ExcepcionDatosInvalidos("El objeto no se pudo crear. Por favor, revise todos los datos");
                 }
-                else throw new ExcepcionDatosInvalidos("Descripcion o atributo propio de objeto muy cortos o incompletos" +
-                    "");
+                else throw new ExcepcionDatosInvalidos("Descripcion o atributo propio de objeto muy cortos o incompletos");
             }
-            catch (FormatException)
+            catch (FormatException ex)
             {
-                MessageBox.Show("Algun dato numerico no valido", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.EventoDatoInvalido.Invoke(ex.Message);
             }
             catch (ExcepcionDatosInvalidos ex)
             {

@@ -306,6 +306,7 @@ namespace Formularios
                 {
                     ListViewItem selectedItem = this.txtInfoProducto2.SelectedItems[0]; // Obtiene el objeto que se selecciono, pero en tipo ListViewItem
                     int selectedIndex = this.txtInfoProducto2.Items.IndexOf(selectedItem);
+
                     DialogResult rta = MessageBox.Show(this.plataforma.ObjetosEnVenta[selectedIndex].DescripcionProducto(), "Compra", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (rta == DialogResult.Yes)
                     {

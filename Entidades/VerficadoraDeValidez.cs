@@ -9,6 +9,8 @@ namespace Entidades
 {
     public class VerficadoraDeValidez : IVerificador
     {
+        private event DelegadoVerificarString EventoVerificarLargo;
+        public VerficadoraDeValidez() { this.EventoVerificarLargo += this.VerificarLargoString; }
         public T Parsear<T>(string dato) where T : struct 
         {
             try
@@ -16,7 +18,7 @@ namespace Entidades
                 T resultado = (T)Convert.ChangeType(dato, typeof(T));
                 return resultado;
             }
-            catch { throw; }
+            catch { throw new FormatException(dato); }
         }
         public bool VerificarLargoString(string dato, int largoMinimo) 
         {
@@ -28,7 +30,8 @@ namespace Entidades
         public bool VerificarLargoString(string dato, int largoMinimo, int largoMaximo)
         {
             bool resultado = false;
-            if (dato.Length >= largoMinimo && dato.Length <= largoMaximo) resultado = true;
+            if (this.EventoVerificarLargo.Invoke(dato, largoMinimo) && dato.Length <= largoMaximo)
+                resultado = true;
             return resultado;
         }
 

@@ -23,6 +23,10 @@ namespace Entidades
         private double precio;
         private short durabilidad;
         public string Descripcion { get; set; }
+
+        private event DelegadoMostrar EventoMuestra;
+        private event DelegadoIgualdad EventoIgualdad;
+
         public ETipoProducto TipoProducto
         {
             get { return this.tipoProducto; } 
@@ -52,6 +56,9 @@ namespace Entidades
             this.tipoProducto = tipoProducto;
             this.precio = precio;
             this.durabilidad = durabilidad;
+
+            this.EventoMuestra += new DelegadoMostrar(this.DatosProducto);
+            this.EventoIgualdad += new DelegadoIgualdad(this.MostrarIgualdad);
         }
         /// <summary>
         /// Constructor vacío. Hecho para que la serialización a xml sea posible
@@ -71,21 +78,22 @@ namespace Entidades
         {
             return !(o1 == o2);
         }
+        public override bool Equals(object? obj) { return this.EventoIgualdad.Invoke(obj); }
+
         /// <summary>
         /// Llama a la sobrecarga de ==. Si un objeto es del tipo correcto, lo castea y compara
         /// </summary>
         /// <param name="obj">El objeto que sera comparado</param>
         /// <returns>booleano que dice el resultado de la operacion</returns>
-        public override bool Equals(object? obj)
+        private bool MostrarIgualdad(object? obj)
         {
             bool retorno = false;
             if (obj is ObjetoEnVenta) retorno = this == (ObjetoEnVenta)obj;
             return retorno;
         }
-        protected virtual string MostrarProducto()
-        {
-            return $"{this.TipoProducto} - Precio: {this.precio} - Durabilidad {this.durabilidad}";
-        }
+
+        protected virtual string MostrarProducto() { return this.EventoMuestra.Invoke(); }
+        private string DatosProducto() { return $"{this.TipoProducto} - Precio: {this.precio} - Durabilidad {this.durabilidad}"; }
         public abstract string DescripcionProducto();
         public abstract string DescripcionProducto(bool venta);
 
@@ -162,6 +170,7 @@ namespace Entidades
             }
             return s;
         }
+
         /// <summary>
         /// Sobrecarga de conversion implícita. Sobre un objeto, se transforma su tipo a string
         /// </summary>

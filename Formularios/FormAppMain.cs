@@ -28,6 +28,7 @@ namespace Formularios
         private Plataforma plataforma;
         private CancellationToken cancelarFlujo;
         private CancellationTokenSource fuenteDeCancelacion;
+        private List<int> listaOferta;
 
         /// <summary>
         /// Constructor. Inicializa atributos y propiedades de controles como es conveniente. 
@@ -89,6 +90,8 @@ namespace Formularios
             this.txtInfoProducto2.View = View.Details;
             this.txtInfoProducto2.Columns.Add("", this.txtInfoProducto2.Width); // si no genero 1 columna, no se generan las filas
             this.ActualizarCatalogo();
+
+            this.listaOferta = new List<int>() { 0, 1, 2 };
         }
 
         /// <summary>
@@ -112,9 +115,35 @@ namespace Formularios
                 this.txtInfoProducto2.Items.Add(objeto.ToString(), (int)objeto.TipoProducto);
             }
         }
+
+        /// <summary>
+        /// Actualiza el listview principal con los objetos a vender que haya y sus respectivas imagenes
+        /// </summary>
+        private void ActualizarContenidoSlider()
+        {
+            string fto = string.Empty;
+            Random random = new Random();
+
+            switch (random.Next(0, 3))
+            {
+                case 0:
+                    fto = "/recursos/electroPromo2.jpg.png";
+                    break;
+                case 1:
+                    fto = "/recursos/ropaOferta2.png";
+                    break;
+                case 2:
+                    fto = "/recursos/alimentoOferta.png";
+                    break;
+            }
+            this.pbOfertas.Image = Image.FromFile(Environment.CurrentDirectory + fto);
+            this.pbOfertas.SizeMode = PictureBoxSizeMode.Zoom; // normaliza tamaños.
+        }
+
         private void FormAppMain_Load(object sender, EventArgs e)
         {
-            Task taskFecha = Task.Run(() => this.BucleTiempo());
+            Task taskFecha = Task.Run(() => this.BucleTiempoHora());
+            Task taskSlider = Task.Run(() => this.BucleTiempoSlider());
         }
 
         private void FormAppMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -189,7 +218,7 @@ namespace Formularios
 
                             this.ActualizarCatalogo();
                         }
-                        else MessageBox.Show("la descripcion debe ser unica e irrepetible");
+                        else MessageBox.Show("la descripcion debe ser unica e irrepetible", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -257,7 +286,7 @@ namespace Formularios
                         NexoBaseDatos n = new NexoBaseDatos();
                         n.Agregar(fv.ObjetoVender);
                     }
-                    else MessageBox.Show("Todos los productos deben tener una descripcion propia y unica.");
+                    else MessageBox.Show("Todos los productos deben tener una descripcion propia y unica.", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 this.ActualizarCatalogo();
             }
@@ -364,7 +393,17 @@ namespace Formularios
             else this.lblHora.Text = fecha.ToString();
         }
 
-        private void BucleTiempo()
+        private void ActualizarSlider()
+        {
+            if (this.lblHora.InvokeRequired)
+            {
+                DelegadoSlider d = new DelegadoSlider(ActualizarSlider);
+                this.lblHora.Invoke(d);
+            }
+            else this.ActualizarContenidoSlider();
+        }
+
+        private void BucleTiempoHora()
         {
             do
             {
@@ -372,6 +411,18 @@ namespace Formularios
 
                 this.ActualizarFecha(DateTime.Now);
                 Thread.Sleep(1000);
+
+            } while (true);
+        }
+
+        private void BucleTiempoSlider()
+        {
+            do
+            {
+                if (this.cancelarFlujo.IsCancellationRequested) break;
+
+                this.ActualizarSlider();
+                Thread.Sleep(5000);
 
             } while (true);
         }

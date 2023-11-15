@@ -53,8 +53,10 @@
             label3 = new Label();
             label5 = new Label();
             lblHora = new Label();
+            pbOfertas = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)ftLogo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ftUser).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbOfertas).BeginInit();
             SuspendLayout();
             // 
             // ftLogo
@@ -80,7 +82,7 @@
             // 
             lblInfo.AutoSize = true;
             lblInfo.Font = new Font("Segoe UI", 8F, FontStyle.Italic, GraphicsUnit.Point);
-            lblInfo.Location = new Point(12, 903);
+            lblInfo.Location = new Point(67, 815);
             lblInfo.Name = "lblInfo";
             lblInfo.Size = new Size(532, 21);
             lblInfo.TabIndex = 4;
@@ -91,7 +93,7 @@
             txtInfoProducto2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             txtInfoProducto2.Location = new Point(12, 144);
             txtInfoProducto2.Name = "txtInfoProducto2";
-            txtInfoProducto2.Size = new Size(1635, 742);
+            txtInfoProducto2.Size = new Size(1172, 657);
             txtInfoProducto2.TabIndex = 14;
             txtInfoProducto2.UseCompatibleStateImageBehavior = false;
             // 
@@ -198,7 +200,7 @@
             // 
             lblVerComprasPrevias.AutoSize = true;
             lblVerComprasPrevias.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblVerComprasPrevias.Location = new Point(1047, 896);
+            lblVerComprasPrevias.Location = new Point(1047, 808);
             lblVerComprasPrevias.Name = "lblVerComprasPrevias";
             lblVerComprasPrevias.Size = new Size(292, 28);
             lblVerComprasPrevias.TabIndex = 26;
@@ -250,7 +252,7 @@
             // 
             lblVerMiembrosApp.AutoSize = true;
             lblVerMiembrosApp.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblVerMiembrosApp.Location = new Point(1416, 897);
+            lblVerMiembrosApp.Location = new Point(1402, 808);
             lblVerMiembrosApp.Name = "lblVerMiembrosApp";
             lblVerMiembrosApp.Size = new Size(219, 28);
             lblVerMiembrosApp.TabIndex = 30;
@@ -276,7 +278,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label4.Location = new Point(1364, 897);
+            label4.Location = new Point(1356, 808);
             label4.Name = "label4";
             label4.Size = new Size(17, 28);
             label4.TabIndex = 34;
@@ -312,12 +314,22 @@
             lblHora.TabIndex = 38;
             lblHora.Text = "[año/mes/dia, hora:min:segs]";
             // 
+            // pbOfertas
+            // 
+            pbOfertas.Image = (Image)resources.GetObject("pbOfertas.Image");
+            pbOfertas.Location = new Point(1225, 159);
+            pbOfertas.Name = "pbOfertas";
+            pbOfertas.Size = new Size(396, 625);
+            pbOfertas.TabIndex = 39;
+            pbOfertas.TabStop = false;
+            // 
             // FormAppMain
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 240, 100);
-            ClientSize = new Size(1659, 944);
+            ClientSize = new Size(1659, 845);
+            Controls.Add(pbOfertas);
             Controls.Add(lblHora);
             Controls.Add(label5);
             Controls.Add(label3);
@@ -348,6 +360,7 @@
             MouseLeave += FormAppMain_MouseLeave;
             ((System.ComponentModel.ISupportInitialize)ftLogo).EndInit();
             ((System.ComponentModel.ISupportInitialize)ftUser).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbOfertas).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -378,5 +391,6 @@
         private Label label3;
         private Label label5;
         private Label lblHora;
+        private PictureBox pbOfertas;
     }
 }

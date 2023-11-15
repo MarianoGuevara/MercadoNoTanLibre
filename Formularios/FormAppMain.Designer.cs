@@ -52,6 +52,7 @@
             label4 = new Label();
             label3 = new Label();
             label5 = new Label();
+            lblHora = new Label();
             ((System.ComponentModel.ISupportInitialize)ftLogo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ftUser).BeginInit();
             SuspendLayout();
@@ -98,7 +99,7 @@
             // 
             lblEditarProducto.AutoSize = true;
             lblEditarProducto.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblEditarProducto.Location = new Point(842, 100);
+            lblEditarProducto.Location = new Point(985, 100);
             lblEditarProducto.Name = "lblEditarProducto";
             lblEditarProducto.Size = new Size(149, 28);
             lblEditarProducto.TabIndex = 16;
@@ -121,7 +122,7 @@
             // 
             lblOrdenarPrecioAsc.AutoSize = true;
             lblOrdenarPrecioAsc.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblOrdenarPrecioAsc.Location = new Point(617, 37);
+            lblOrdenarPrecioAsc.Location = new Point(771, 37);
             lblOrdenarPrecioAsc.Name = "lblOrdenarPrecioAsc";
             lblOrdenarPrecioAsc.Size = new Size(113, 28);
             lblOrdenarPrecioAsc.TabIndex = 19;
@@ -135,7 +136,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.Location = new Point(617, 9);
+            label1.Location = new Point(763, 9);
             label1.Name = "label1";
             label1.Size = new Size(175, 28);
             label1.TabIndex = 20;
@@ -145,7 +146,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(878, 37);
+            label2.Location = new Point(1038, 35);
             label2.Name = "label2";
             label2.Size = new Size(17, 28);
             label2.TabIndex = 21;
@@ -155,7 +156,7 @@
             // 
             lblOrdenarPrecioDesc.AutoSize = true;
             lblOrdenarPrecioDesc.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblOrdenarPrecioDesc.Location = new Point(736, 37);
+            lblOrdenarPrecioDesc.Location = new Point(899, 36);
             lblOrdenarPrecioDesc.Name = "lblOrdenarPrecioDesc";
             lblOrdenarPrecioDesc.Size = new Size(124, 28);
             lblOrdenarPrecioDesc.TabIndex = 22;
@@ -169,7 +170,7 @@
             // 
             lblOrdenarTipoAsc.AutoSize = true;
             lblOrdenarTipoAsc.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblOrdenarTipoAsc.Location = new Point(912, 37);
+            lblOrdenarTipoAsc.Location = new Point(1071, 35);
             lblOrdenarTipoAsc.Name = "lblOrdenarTipoAsc";
             lblOrdenarTipoAsc.Size = new Size(113, 28);
             lblOrdenarTipoAsc.TabIndex = 24;
@@ -183,7 +184,7 @@
             // 
             lblOrdenarTipoDesc.AutoSize = true;
             lblOrdenarTipoDesc.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblOrdenarTipoDesc.Location = new Point(1031, 37);
+            lblOrdenarTipoDesc.Location = new Point(1215, 35);
             lblOrdenarTipoDesc.Name = "lblOrdenarTipoDesc";
             lblOrdenarTipoDesc.Size = new Size(124, 28);
             lblOrdenarTipoDesc.TabIndex = 25;
@@ -223,7 +224,7 @@
             // 
             lblComprar.AutoSize = true;
             lblComprar.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblComprar.Location = new Point(1066, 100);
+            lblComprar.Location = new Point(1225, 100);
             lblComprar.Name = "lblComprar";
             lblComprar.Size = new Size(89, 28);
             lblComprar.TabIndex = 28;
@@ -262,7 +263,7 @@
             // 
             lblVenderProducto.AutoSize = true;
             lblVenderProducto.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblVenderProducto.Location = new Point(617, 100);
+            lblVenderProducto.Location = new Point(763, 100);
             lblVenderProducto.Name = "lblVenderProducto";
             lblVenderProducto.Size = new Size(160, 28);
             lblVenderProducto.TabIndex = 31;
@@ -285,7 +286,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(809, 100);
+            label3.Location = new Point(932, 100);
             label3.Name = "label3";
             label3.Size = new Size(17, 28);
             label3.TabIndex = 35;
@@ -295,11 +296,21 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(1017, 100);
+            label5.Location = new Point(1167, 100);
             label5.Name = "label5";
             label5.Size = new Size(17, 28);
             label5.TabIndex = 36;
             label5.Text = "|";
+            // 
+            // lblHora
+            // 
+            lblHora.AutoSize = true;
+            lblHora.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point);
+            lblHora.Location = new Point(343, 35);
+            lblHora.Name = "lblHora";
+            lblHora.Size = new Size(317, 30);
+            lblHora.TabIndex = 38;
+            lblHora.Text = "[año/mes/dia, hora:min:segs]";
             // 
             // FormAppMain
             // 
@@ -307,6 +318,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 240, 100);
             ClientSize = new Size(1659, 944);
+            Controls.Add(lblHora);
             Controls.Add(label5);
             Controls.Add(label3);
             Controls.Add(label4);
@@ -331,6 +343,7 @@
             Name = "FormAppMain";
             Text = "FormAppMain";
             FormClosing += FormAppMain_FormClosing;
+            Load += FormAppMain_Load;
             MouseEnter += FormAppMain_MouseEnter;
             MouseLeave += FormAppMain_MouseLeave;
             ((System.ComponentModel.ISupportInitialize)ftLogo).EndInit();
@@ -364,5 +377,6 @@
         private Label label4;
         private Label label3;
         private Label label5;
+        private Label lblHora;
     }
 }

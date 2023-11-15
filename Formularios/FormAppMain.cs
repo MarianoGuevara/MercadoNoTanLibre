@@ -26,6 +26,8 @@ namespace Formularios
         private static string pathXmlventasPrevias = Environment.CurrentDirectory + "/ventasPrevias.xml";
         private Usuario userActual;
         private Plataforma plataforma;
+        private CancellationToken cancelarFlujo;
+        private CancellationTokenSource fuenteDeCancelacion;
 
         /// <summary>
         /// Constructor. Inicializa atributos y propiedades de controles como es conveniente. 
@@ -45,6 +47,9 @@ namespace Formularios
             this.lblUserInfo.Text = $"Usuario '{this.userActual.nombre}', {this.userActual.perfil} ({DateTime.Now.Day}/{DateTime.Now.Month}/{DateTime.Now.Year})";
             this.plataforma = plataforma;
             this.lblVerLogins.Enabled = false;
+            this.fuenteDeCancelacion = new CancellationTokenSource();
+            this.cancelarFlujo = this.fuenteDeCancelacion.Token;
+
 
             switch (this.userActual.perfil)
             {
@@ -107,6 +112,269 @@ namespace Formularios
                 this.txtInfoProducto2.Items.Add(objeto.ToString(), (int)objeto.TipoProducto);
             }
         }
+        private void FormAppMain_Load(object sender, EventArgs e)
+        {
+            Task taskFecha = Task.Run(() => this.BucleTiempo());
+        }
+
+        private void FormAppMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.fuenteDeCancelacion.Cancel();
+
+            DialogResult rta = MessageBox.Show("Seguro que desea cerrar sesión?"
+                        , "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (rta == DialogResult.Yes) DialogResult = DialogResult.OK;
+            else
+            {
+                e.Cancel = true;
+            }
+        }
+
+        /// <summary>
+        /// Instancia un formulario al cual se le pasa un string con los objetos ya vendidos 
+        /// de la plataforma. En el formulario se pueden visualizar estos objetos
+        /// </summary>
+        private void lblVerComprasPrevias_Click(object sender, EventArgs e)
+        {
+            FormComprasPrevias fcp = new FormComprasPrevias(this.plataforma.MostrarObjetosVendidos());
+            fcp.ShowDialog();
+        }
+        private void lblCerrarSesion_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+        }
+
+        /// <summary>
+        /// Instancia un formulario para ver todos los login de la app, si el user es administrador
+        /// </summary>
+        private void lblVerLogins_Click(object sender, EventArgs e)
+        {
+            FormVerLogin fv = new FormVerLogin();
+            fv.ShowDialog();
+        }
+
+        /// <summary>
+        /// Instancia un formulario para ver todos los miembros de la app
+        /// </summary>
+        private void lblVerMiembrosApp_Click(object sender, EventArgs e)
+        {
+            FormVerUsuarios fu = new FormVerUsuarios(this.plataforma);
+            fu.ShowDialog();
+        }
+
+        /// <summary>
+        /// Si un user no es vendedor y está seleccionando un producto valido del catalogo, 
+        /// se instancia un formulario que permite su edición
+        /// </summary>
+        private void lblEditarProducto_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (this.txtInfoProducto2.SelectedItems.Count > 0)
+                {
+                    ListViewItem selectedItem = this.txtInfoProducto2.SelectedItems[0]; // Obtiene el objeto que se selecciono, pero en tipo ListViewItem
+                    int selectedIndex = this.txtInfoProducto2.Items.IndexOf(selectedItem);
+
+                    FormGenerarObjetoVenta fv = new FormGenerarObjetoVenta(this.plataforma.ObjetosEnVenta[selectedIndex]);
+                    fv.ShowDialog();
+                    if (fv.DialogResult == DialogResult.OK)
+                    {
+                        if (this.plataforma.DescripcionUnica(fv.ObjetoVender, this.plataforma.ObjetosEnVenta[selectedIndex]) == false)
+                        {
+                            NexoBaseDatos n = new NexoBaseDatos();
+                            n.Editar(fv.ObjetoVender, this.plataforma.ObjetosEnVenta[selectedIndex]);
+
+                            this.plataforma.Editar(fv.ObjetoVender, selectedIndex);
+
+                            this.ActualizarCatalogo();
+                        }
+                        else MessageBox.Show("la descripcion debe ser unica e irrepetible");
+                    }
+                }
+            }
+            catch (ExcepcionErrorConBaseDatos ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Si hay un elemento del catálogo seleccionado, se elimina de la plataforma, y se 
+        /// agrega a los objetos ya vendidos, preguntando si está seguro el user de realizar
+        /// esta operacion.
+        /// </summary>
+        private void lblComprar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (this.txtInfoProducto2.SelectedItems.Count > 0)
+                {
+                    ListViewItem selectedItem = this.txtInfoProducto2.SelectedItems[0]; // Obtiene el objeto que se selecciono, pero en tipo ListViewItem
+                    int selectedIndex = this.txtInfoProducto2.Items.IndexOf(selectedItem);
+
+                    DialogResult rta = MessageBox.Show(this.plataforma.ObjetosEnVenta[selectedIndex].DescripcionProducto(), "Compra", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (rta == DialogResult.Yes)
+                    {
+                        this.plataforma.ObjetosVendidos.Add(this.plataforma.ObjetosEnVenta[selectedIndex]);
+                        this.Serializar(this.plataforma.ObjetosVendidos, FormAppMain.pathXmlventasPrevias);
+
+                        NexoBaseDatos n = new NexoBaseDatos();
+                        n.Eliminar(this.plataforma.ObjetosEnVenta[selectedIndex]);
+
+                        this.plataforma.Eliminar(this.plataforma.ObjetosEnVenta[selectedIndex]);
+                        this.txtInfoProducto2.Items.Remove(selectedItem);
+                    }
+                }
+                this.ActualizarCatalogo();
+            }
+            catch (ExcepcionArchivoInvalido ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (ExcepcionErrorConBaseDatos ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Instancia un formulario para generar un objeto a vender. Una vez este es valido, se
+        /// agrega al catálogo
+        /// </summary>
+        private void lblVenderProducto_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                FormGenerarObjetoVenta fv = new FormGenerarObjetoVenta();
+                fv.ShowDialog();
+                if (fv.DialogResult == DialogResult.OK && fv.ObjetoVender is not null)
+                {
+                    if (this.plataforma == fv.ObjetoVender) MessageBox.Show("El producto ya se encuentra a la venta");
+                    else if (this.plataforma.DescripcionUnica(fv.ObjetoVender) == false)
+                    {
+                        this.plataforma.Agregar(fv.ObjetoVender); // this.plataforma += fv.ObjetoVender;
+                        NexoBaseDatos n = new NexoBaseDatos();
+                        n.Agregar(fv.ObjetoVender);
+                    }
+                    else MessageBox.Show("Todos los productos deben tener una descripcion propia y unica.");
+                }
+                this.ActualizarCatalogo();
+            }
+            catch (ExcepcionArchivoInvalido ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (ExcepcionErrorConBaseDatos ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (ExcepcionSobrecargaInvalida ex)
+            {
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Ordena la lista de objetos en venta de la plataforma actual, según el precio, ascendente
+        /// </summary>
+        private void lblOrdenarPrecioAsc_Click(object sender, EventArgs e)
+        {
+            this.plataforma.ObjetosEnVenta.Sort(ObjetoEnVenta.OrdenarObjetoPorPrecioAscendente);
+            this.ActualizarCatalogo();
+        }
+
+        /// <summary>
+        /// Ordena la lista de objetos en venta de la plataforma actual, según el precio, descendente
+        /// </summary>
+        private void lblOrdenarPrecioDesc_Click(object sender, EventArgs e)
+        {
+            ObjetoEnVenta.OrdenarObjetoPorPrecioDescendente(this.plataforma);
+            this.ActualizarCatalogo();
+        }
+        /// <summary>
+        /// Ordena la lista de objetos en venta de la plataforma actual, según el tipo, ascendente
+        /// </summary>
+        private void lblOrdenarTipoAsc_Click(object sender, EventArgs e)
+        {
+            this.plataforma.ObjetosEnVenta.Sort(ObjetoEnVenta.OrdenarObjetoPorTipoAscendente);
+            this.ActualizarCatalogo();
+        }
+        /// <summary>
+        /// Ordena la lista de objetos en venta de la plataforma actual, según el tipo, descendente
+        /// </summary>
+        private void lblOrdenarTipoDesc_Click(object sender, EventArgs e)
+        {
+            ObjetoEnVenta.OrdenarObjetoPorTipoDescendente(this.plataforma);
+            this.ActualizarCatalogo();
+        }
+
+        /// <summary>
+        /// Asigna una 'animación' a un control label y regresa el mismo a la normalidad
+        /// </summary>
+        /// <param name="label">El label sobre el cual se aplicará la acción </param>
+        /// <param name="hover">Booleano que dice si se quiere o no animar el label </param>
+        private void AsignarHover(Label label, bool hover = false)
+        {
+            if (hover)
+            {
+                FontFamily f = new FontFamily("Segoe UI");
+                label.Font = new Font(f, 10.5F, FontStyle.Bold);
+            }
+            else
+            {
+                FontFamily f = new FontFamily("Segoe UI");
+                label.Font = new Font(f, 10F, FontStyle.Regular);
+            }
+        }
+
+        /// <summary>
+        /// Si cualquier control del formulario es un label, llama al metodo para animarlo,
+        /// cuando el mouse le pase por encima
+        /// </summary>
+        private void FormAppMain_MouseEnter(object sender, EventArgs e)
+        {
+            if (sender is Label label)
+            {
+                AsignarHover(label, true);
+            }
+        }
+
+        /// <summary>
+        /// Si cualquier control del formulario es un label, llama al metodo para devolverlo
+        /// a la normalidad, cuando el mouse deje de pasarle por encima
+        /// </summary>
+        private void FormAppMain_MouseLeave(object sender, EventArgs e)
+        {
+            if (sender is Label label)
+            {
+                AsignarHover(label);
+            }
+        }
+
+        private void ActualizarFecha(DateTime fecha)
+        {
+            if (this.lblHora.InvokeRequired)
+            {
+                DelegadoFecha d = new DelegadoFecha(ActualizarFecha);
+                object[] arrayParametro = { fecha };
+
+                this.lblHora.Invoke(d, fecha);
+            }
+            else this.lblHora.Text = fecha.ToString();
+        }
+
+        private void BucleTiempo()
+        {
+            do
+            {
+                if (this.cancelarFlujo.IsCancellationRequested) break;
+
+                this.ActualizarFecha(DateTime.Now);
+                Thread.Sleep(1000);
+
+            } while (true);
+        }
 
         /// <summary>
         /// Serializa una lista de objetos a xml
@@ -154,237 +422,5 @@ namespace Formularios
             }
         }
 
-        private void FormAppMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            DialogResult rta = MessageBox.Show("Seguro que desea cerrar sesión?"
-                        , "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-            if (rta == DialogResult.Yes) DialogResult = DialogResult.OK;
-            else
-            {
-                e.Cancel = true;
-            }
-        }
-
-        /// <summary>
-        /// Si un user no es vendedor y está seleccionando un producto valido del catalogo, 
-        /// se instancia un formulario que permite su edición
-        /// </summary>
-        private void lblEditarProducto_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (this.txtInfoProducto2.SelectedItems.Count > 0)
-                {
-                    ListViewItem selectedItem = this.txtInfoProducto2.SelectedItems[0]; // Obtiene el objeto que se selecciono, pero en tipo ListViewItem
-                    int selectedIndex = this.txtInfoProducto2.Items.IndexOf(selectedItem);
-
-                    FormGenerarObjetoVenta fv = new FormGenerarObjetoVenta(this.plataforma.ObjetosEnVenta[selectedIndex]);
-                    fv.ShowDialog();
-                    if (fv.DialogResult == DialogResult.OK)
-                    {
-                        if (this.plataforma.DescripcionUnica(fv.ObjetoVender, this.plataforma.ObjetosEnVenta[selectedIndex]) == false)
-                        {
-                            NexoBaseDatos n = new NexoBaseDatos();
-                            n.Editar(fv.ObjetoVender, this.plataforma.ObjetosEnVenta[selectedIndex]);
-
-                            this.plataforma.Editar(fv.ObjetoVender, selectedIndex);
-
-                            this.ActualizarCatalogo();
-                        }
-                        else MessageBox.Show("la descripcion debe ser unica e irrepetible");
-                    }
-                }
-            }
-            catch (ExcepcionErrorConBaseDatos ex)
-            {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        /// <summary>
-        /// Asigna una 'animación' a un control label y regresa el mismo a la normalidad
-        /// </summary>
-        /// <param name="label">El label sobre el cual se aplicará la acción </param>
-        /// <param name="hover">Booleano que dice si se quiere o no animar el label </param>
-        private void AsignarHover(Label label, bool hover = false)
-        {
-            if (hover)
-            {
-                FontFamily f = new FontFamily("Segoe UI");
-                label.Font = new Font(f, 10.5F, FontStyle.Bold);
-            }
-            else
-            {
-                FontFamily f = new FontFamily("Segoe UI");
-                label.Font = new Font(f, 10F, FontStyle.Regular);
-            }
-        }
-
-        /// <summary>
-        /// Ordena la lista de objetos en venta de la plataforma actual, según el precio, ascendente
-        /// </summary>
-        private void lblOrdenarPrecioAsc_Click(object sender, EventArgs e)
-        {
-            this.plataforma.ObjetosEnVenta.Sort(ObjetoEnVenta.OrdenarObjetoPorPrecioAscendente);
-            this.ActualizarCatalogo();
-        }
-
-        /// <summary>
-        /// Ordena la lista de objetos en venta de la plataforma actual, según el precio, descendente
-        /// </summary>
-        private void lblOrdenarPrecioDesc_Click(object sender, EventArgs e)
-        {
-            ObjetoEnVenta.OrdenarObjetoPorPrecioDescendente(this.plataforma);
-            this.ActualizarCatalogo();
-        }
-        /// <summary>
-        /// Ordena la lista de objetos en venta de la plataforma actual, según el tipo, ascendente
-        /// </summary>
-        private void lblOrdenarTipoAsc_Click(object sender, EventArgs e)
-        {
-            this.plataforma.ObjetosEnVenta.Sort(ObjetoEnVenta.OrdenarObjetoPorTipoAscendente);
-            this.ActualizarCatalogo();
-        }
-        /// <summary>
-        /// Ordena la lista de objetos en venta de la plataforma actual, según el tipo, descendente
-        /// </summary>
-        private void lblOrdenarTipoDesc_Click(object sender, EventArgs e)
-        {
-            ObjetoEnVenta.OrdenarObjetoPorTipoDescendente(this.plataforma);
-            this.ActualizarCatalogo();
-        }
-
-        /// <summary>
-        /// Instancia un formulario al cual se le pasa un string con los objetos ya vendidos 
-        /// de la plataforma. En el formulario se pueden visualizar estos objetos
-        /// </summary>
-        private void lblVerComprasPrevias_Click(object sender, EventArgs e)
-        {
-            FormComprasPrevias fcp = new FormComprasPrevias(this.plataforma.MostrarObjetosVendidos());
-            fcp.ShowDialog();
-        }
-        private void lblCerrarSesion_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.OK;
-        }
-
-        /// <summary>
-        /// Si cualquier control del formulario es un label, llama al metodo para animarlo,
-        /// cuando el mouse le pase por encima
-        /// </summary>
-        private void FormAppMain_MouseEnter(object sender, EventArgs e)
-        {
-            if (sender is Label label)
-            {
-                AsignarHover(label, true);
-            }
-        }
-
-        /// <summary>
-        /// Si cualquier control del formulario es un label, llama al metodo para devolverlo
-        /// a la normalidad, cuando el mouse deje de pasarle por encima
-        /// </summary>
-        private void FormAppMain_MouseLeave(object sender, EventArgs e)
-        {
-            if (sender is Label label)
-            {
-                AsignarHover(label);
-            }
-        }
-
-        /// <summary>
-        /// Si hay un elemento del catálogo seleccionado, se elimina de la plataforma, y se 
-        /// agrega a los objetos ya vendidos, preguntando si está seguro el user de realizar
-        /// esta operacion.
-        /// </summary>
-        private void lblComprar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (this.txtInfoProducto2.SelectedItems.Count > 0)
-                {
-                    ListViewItem selectedItem = this.txtInfoProducto2.SelectedItems[0]; // Obtiene el objeto que se selecciono, pero en tipo ListViewItem
-                    int selectedIndex = this.txtInfoProducto2.Items.IndexOf(selectedItem);
-
-                    DialogResult rta = MessageBox.Show(this.plataforma.ObjetosEnVenta[selectedIndex].DescripcionProducto(), "Compra", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (rta == DialogResult.Yes)
-                    {
-                        this.plataforma.ObjetosVendidos.Add(this.plataforma.ObjetosEnVenta[selectedIndex]);
-                        this.Serializar(this.plataforma.ObjetosVendidos, FormAppMain.pathXmlventasPrevias);
-
-                        NexoBaseDatos n = new NexoBaseDatos();
-                        n.Eliminar(this.plataforma.ObjetosEnVenta[selectedIndex]);
-
-                        this.plataforma.Eliminar(this.plataforma.ObjetosEnVenta[selectedIndex]);
-                        this.txtInfoProducto2.Items.Remove(selectedItem);
-                    }
-                }
-                this.ActualizarCatalogo();
-            }
-            catch (ExcepcionArchivoInvalido ex)
-            {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (ExcepcionErrorConBaseDatos ex)
-            {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        /// <summary>
-        /// Instancia un formulario para ver todos los login de la app, si el user es administrador
-        /// </summary>
-        private void lblVerLogins_Click(object sender, EventArgs e)
-        {
-            FormVerLogin fv = new FormVerLogin();
-            fv.ShowDialog();
-        }
-
-        /// <summary>
-        /// Instancia un formulario para ver todos los miembros de la app
-        /// </summary>
-        private void lblVerMiembrosApp_Click(object sender, EventArgs e)
-        {
-            FormVerUsuarios fu = new FormVerUsuarios(this.plataforma);
-            fu.ShowDialog();
-        }
-
-        /// <summary>
-        /// Instancia un formulario para generar un objeto a vender. Una vez este es valido, se
-        /// agrega al catálogo
-        /// </summary>
-        private void lblVenderProducto_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                FormGenerarObjetoVenta fv = new FormGenerarObjetoVenta();
-                fv.ShowDialog();
-                if (fv.DialogResult == DialogResult.OK && fv.ObjetoVender is not null)
-                {
-                    if (this.plataforma == fv.ObjetoVender) MessageBox.Show("El producto ya se encuentra a la venta");
-                    else if (this.plataforma.DescripcionUnica(fv.ObjetoVender) == false)
-                    {
-                        this.plataforma.Agregar(fv.ObjetoVender); // this.plataforma += fv.ObjetoVender;
-                        NexoBaseDatos n = new NexoBaseDatos();
-                        n.Agregar(fv.ObjetoVender);
-                    }
-                    else MessageBox.Show("Todos los productos deben tener una descripcion propia y unica.");
-                }
-                this.ActualizarCatalogo();
-            }
-            catch (ExcepcionArchivoInvalido ex)
-            {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (ExcepcionErrorConBaseDatos ex)
-            {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (ExcepcionSobrecargaInvalida ex)
-            {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
     }
 }

@@ -86,11 +86,11 @@
             // 
             lblTiempo.AutoSize = true;
             lblTiempo.Font = new Font("Segoe UI Emoji", 14F, FontStyle.Bold, GraphicsUnit.Point);
-            lblTiempo.Location = new Point(202, 652);
+            lblTiempo.Location = new Point(228, 652);
             lblTiempo.Name = "lblTiempo";
-            lblTiempo.Size = new Size(127, 37);
+            lblTiempo.Size = new Size(74, 37);
             lblTiempo.TabIndex = 9;
-            lblTiempo.Text = "00:00:00";
+            lblTiempo.Text = "0 : 0";
             // 
             // FormLogin
             // 

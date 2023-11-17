@@ -13,15 +13,24 @@ namespace Entidades
         private static string stringConector;
         private SqlConnection conexionSql;
         private SqlCommand comunicadorSql;
- 
+        
         static NexoBaseDatos()
         {
             NexoBaseDatos.stringConector = Properties.Resources.StringConector;
         }
+        /// <summary>
+        /// Constructor. Pasa previamente por el estatico. Ambos inicializan atributos.
+        /// </summary>
         public NexoBaseDatos()
         {
             this.conexionSql = new SqlConnection(NexoBaseDatos.stringConector);
         }
+
+        /// <summary>
+        /// Metodo que intenta agregar a una base de dato un objeto. Si no puede, lanza excepcion.
+        /// Implementacion de interfaz CRUD
+        /// </summary>
+        /// <param name="objetoDelCrud">Objeto a agregar</param>
         public void Agregar(ObjetoEnVenta objetoDelCrud)
         {
             try
@@ -34,6 +43,11 @@ namespace Entidades
         {
             throw new ExcepcionSobrecargaInvalida("Imposible usar esta sobrecarga en la base de datos; indice inexistente");
         }
+        /// <summary>
+        /// Implementacion de interfaz CRUD. Intenta editar un objeto de una base de datos
+        /// </summary>
+        /// <param name="objetoEditCrud">el nuevo objeto que reemplazara al anterior</param>
+        /// /// <param name="original">el antiguo objeto que sera reemplazado</param>
         public void Editar(ObjetoEnVenta objetoEditCrud, ObjetoEnVenta original)
         {
             try
@@ -42,6 +56,11 @@ namespace Entidades
             }
             catch { throw; }
         }
+
+        /// <summary>
+        /// Implementacion de interfaz CRUD. Intenta eliminar un objeto de una base de datos
+        /// </summary>
+        /// <param name="objetoDelCrud">el objeto a eliminar</param>
         public void Eliminar(ObjetoEnVenta objetoDelCrud)
         {
             try
@@ -50,7 +69,13 @@ namespace Entidades
             }
             catch { throw; }
         }
-
+        /// <summary>
+        /// Metodo que implementa la logica para agregar o editar un objeto
+        /// </summary>
+        /// <param name="objeto">Es el objeto a agregar</param>
+        /// <param name="accion">O agregar, o editar</param>
+        /// <param name="original">El objeto original. Es opcional, solo en caso de editar</param>
+        /// <exception cref="ExcepcionErrorConBaseDatos">Si no pudo, lanza excepcion</exception>
         private void AgregarEditarObjeto(ObjetoEnVenta objeto, string accion, ObjetoEnVenta original=null)
         {
             try
@@ -166,6 +191,12 @@ namespace Entidades
                 }
             }
         }
+
+        /// <summary>
+        /// La logica de eliminar un objeto.
+        /// </summary>
+        /// <param name="objeto">Objeto a eliminar</param>
+        /// <exception cref="ExcepcionErrorConBaseDatos">si no puede, lanza excepcion</exception>
         private void EliminarObjeto(ObjetoEnVenta objeto)
         {
             try
@@ -222,6 +253,13 @@ namespace Entidades
                 }
             }
         }
+
+        /// <summary>
+        /// Metodo que deserializa todos los objetos de la base de datos y los transforma en
+        /// una lista de la jerarquia
+        /// </summary>
+        /// <returns>Lista deserializada</returns>
+        /// <exception cref="ExcepcionErrorConBaseDatos">si no puede, lanza excepcion</exception>
         public List<ObjetoEnVenta> DeserializarBaseDeDatos()
         {
             List<ObjetoEnVenta> lista = new List<ObjetoEnVenta>();
@@ -251,6 +289,13 @@ namespace Entidades
                 }
             }
         }
+
+        /// <summary>
+        /// Metodo que deserializa una tabla de una base de datos de objeto en venta
+        /// </summary>
+        /// <param name="producto">String que indica qué tabla se deserializará</param>
+        /// <returns>La lista con los objetos de la tabla especifica</returns>
+        /// <exception cref="ExcepcionErrorConBaseDatos">si no puede, lanza excepcion</exception>
         public List<ObjetoEnVenta> DeserializarProductosEspecifico(string producto)
         {
             List<ObjetoEnVenta> lista = new List<ObjetoEnVenta>();
@@ -315,6 +360,11 @@ namespace Entidades
             return lista;
         }
 
+        /// <summary>
+        /// Implementacion de la interfaz conversor. Pasa de EnumTipoProducto a string 
+        /// </summary>
+        /// <param name="obj">Enum a cambiar</param>
+        /// <returns>string cambiado en base al enum</returns>
         public string DeEnumParaString(ETipoProducto tipo)
         {
             string retorno = string.Empty;
@@ -333,6 +383,11 @@ namespace Entidades
             return retorno;
         }
 
+        /// <summary>
+        /// Implementacion de la interfaz conversor. Pasa de string a enum correspondiente
+        /// </summary>
+        /// <param name="obj">string a analizar</param>
+        /// <returns>El enum en base al string</returns>
         public ETipoProducto DeStringParaEnum(string obj)
         {
             ETipoProducto eTipo = ETipoProducto.Ropa;

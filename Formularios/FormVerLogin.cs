@@ -12,7 +12,8 @@ using System.Windows.Forms;
 namespace Formularios
 {
     /// <summary>
-    /// Esta clase ve los login previos en toda la app; solo para administradores
+    /// Esta clase ve los login previos en toda la app; solo para administradores. Implementa la interfaz
+    /// de serializacion
     /// </summary>
     public partial class FormVerLogin : Form, ISerializadora<string>
     {
@@ -28,8 +29,10 @@ namespace Formularios
             this.ActualizarPantalla(rutaSerializacion);
         }
         public FormVerLogin():this(Environment.CurrentDirectory + "/usuarios.log") { }
+
         /// <summary>
-        /// Si existe un archivo determinado, devuelve el texto deserializado
+        /// Si existe un archivo determinado, devuelve el texto deserializado. Implementacion
+        /// de interfaz 
         /// </summary>
         /// <returns></returns>
         public string Deserializar(string ruta)
@@ -46,7 +49,8 @@ namespace Formularios
         }
 
         /// <summary>
-        /// Serializa un string en una ruta específica
+        /// Serializa un string en una ruta específica. Implementacion
+        /// de interfaz 
         /// </summary>
         public void Serializar(string aSerializar, string ruta)
         {

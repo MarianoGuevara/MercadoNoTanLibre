@@ -44,7 +44,6 @@ namespace Formularios
 
             this.EventoDatoInvalido += new DelegadoInformarParseoFallido(this.MostrarErrorNumerico);
         }
-
         private void MostrarErrorNumerico(string parseoFallido)
         {
             MessageBox.Show($"Parseo del dato incorrecto: {parseoFallido}, intentelo nuevamente","Error",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -123,7 +122,7 @@ namespace Formularios
 
         /// <summary>
         /// Crea un objeto de la jerarquia, si todos los campos llenados por el usuario 
-        /// son validos. Si es así, cierra el formulario
+        /// son validos. Si es así, se crea el objeto... Si no, actua informando el por qué no es valido
         /// </summary>
         private void CrearObjeto()
         {

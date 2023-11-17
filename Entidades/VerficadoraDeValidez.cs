@@ -7,10 +7,23 @@ using System.Threading.Tasks;
 
 namespace Entidades
 {
+    /// <summary>
+    /// Clase hecha especialmente para acceder rapidamente a metodos de parseo o verificacion de
+    /// datos, como si cumple con un maximo de longitud.
+    /// </summary>
     public class VerficadoraDeValidez : IVerificador
     {
         private event DelegadoVerificarString EventoVerificarLargo;
         public VerficadoraDeValidez() { this.EventoVerificarLargo += this.VerificarLargoString; }
+
+        /// <summary>
+        /// Metodo que intenta parsear un string a un dato generico
+        /// </summary>
+        /// <typeparam name="T">el tipo de dato al que el usuario desea parsear</typeparam>
+        /// <param name="dato">el dato que se desea transformar</param>
+        /// <returns>El dato en su nuevo tipo de dato o una excepcion</returns>
+        /// <exception cref="FormatException">Devuelve una excepcion que contiene 
+        /// el dato que no se pudo transformar</exception>
         public T Parsear<T>(string dato) where T : struct 
         {
             try
@@ -20,6 +33,13 @@ namespace Entidades
             }
             catch { throw new FormatException(dato); }
         }
+
+        /// <summary>
+        /// Verifica si el string tiene un minimo de caracteres
+        /// </summary>
+        /// <param name="dato">el dato a chequear</param>
+        /// <param name="largoMinimo">el minimo de caracteres</param>
+        /// <returns>booleano que determina el resultado de la operacion</returns>
         public bool VerificarLargoString(string dato, int largoMinimo) 
         {
             bool resultado = false;
@@ -27,6 +47,14 @@ namespace Entidades
             return resultado; 
         }
 
+
+        /// <summary>
+        /// Sobrecarga. Verifica si el string se encuentra dentro de un rango de caracteres
+        /// </summary>
+        /// <param name="dato">el dato a chequear</param>
+        /// <param name="largoMinimo">el minimo de caracteres</param>
+        /// <param name="largoMaximo">el maximo de caracteres</param>
+        /// <returns>booleano que determina el resultado de la operacion</returns>
         public bool VerificarLargoString(string dato, int largoMinimo, int largoMaximo)
         {
             bool resultado = false;
@@ -51,7 +79,5 @@ namespace Entidades
             }
             return retorno;
         }
-
-        //abstract  bool CrearObjeto() { return false; }
     }
 }

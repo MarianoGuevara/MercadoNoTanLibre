@@ -19,6 +19,7 @@ namespace Formularios
 {
     /// <summary>
     /// La clase que representa el formulario principal de la aplicacion; el CRUD y otras funcionalidades
+    /// Implementa clase serializadora
     /// </summary>
     public partial class FormAppMain : Form, ISerializadora<List<ObjetoEnVenta>>
     {
@@ -378,6 +379,10 @@ namespace Formularios
             }
         }
 
+        /// <summary>
+        /// Metodo que intenta estar en el hilo principal y modifica el labelHora
+        /// </summary>
+        /// <param name="fecha"></param>
         private void ActualizarFecha(DateTime fecha)
         {
             if (this.lblHora.InvokeRequired)
@@ -390,6 +395,9 @@ namespace Formularios
             else this.lblHora.Text = fecha.ToString();
         }
 
+        /// <summary>
+        /// Metodo que intenta estar en el hilo principal y llama al metodo ActualizarContenidoSlider
+        /// </summary>
         private void ActualizarSlider()
         {
             if (this.lblHora.InvokeRequired)
@@ -400,6 +408,9 @@ namespace Formularios
             else this.ActualizarContenidoSlider();
         }
 
+        /// <summary>
+        /// Metodo que segundo a segundo cambia la hora
+        /// </summary>
         private void BucleTiempoHora()
         {
             do
@@ -411,26 +422,24 @@ namespace Formularios
 
             } while (true);
         }
-
+        /// <summary>
+        /// Metodo que cada 5 segundos actualiza la imagen del slider
+        /// </summary>
         private void BucleTiempoSlider()
         {
             do
             {
                 if (this.cancelarFlujo.IsCancellationRequested) break;
 
-                this.ActualizarSlider();
                 Thread.Sleep(5000);
+                this.ActualizarSlider();
 
             } while (true);
         }
 
         /// <summary>
-        /// Serializa una lista de objetos a xml
+        /// Serializa una lista de objetos a xml. Implementacion de la interfaz 
         /// </summary>
-        /// <param name="path">La ruta del archivo a serializar</param>
-        /// <param name="catalogo">Un booleano que representa si se está serializando el
-        /// catálogo o los objetos YA vendidos previamente</param>
-        /// <returns>booleano representando si se pudo realizar la accion o no</returns>
         public void Serializar(List<ObjetoEnVenta> aSerializar, string ruta)
         {
             try
@@ -448,12 +457,9 @@ namespace Formularios
         }
 
         /// <summary>
-        /// Serializa un xml a una lista de objetos
+        /// Serializa un xml a una lista de objetos. Implementacion de la interfaz 
         /// </summary>
-        /// <param name="path">La ruta del archivo a serializar</param>
-        /// <param name="catalogo">Un booleano que representa si se está serializando el
-        /// catálogo o los objetos YA vendidos previamente</param>
-        /// <returns>booleano representando si se pudo realizar la accion o no</returns>
+        /// <returns>el objeto deserializado</returns>
         public List<ObjetoEnVenta> Deserializar(string ruta)
         {
             try

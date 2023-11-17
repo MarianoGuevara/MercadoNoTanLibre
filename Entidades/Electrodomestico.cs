@@ -103,6 +103,11 @@ namespace Entidades
             return $"ELECTRODOMESTICO YA COMPRADO | " + this.ToString();
         }
 
+        /// <summary>
+        /// Implementacion de la interfaz conversor. Pasa de EnumTipoElectrodomestico a string 
+        /// </summary>
+        /// <param name="obj">Enum a cambiar</param>
+        /// <returns>string cambiado en base al enum</returns>
         public string DeEnumParaString(ETipoElecto obj)
         {
             string retorno = string.Empty;
@@ -121,6 +126,11 @@ namespace Entidades
             return retorno;
         }
 
+        /// <summary>
+        /// Implementacion de la interfaz conversor. Pasa de string a enum correspondiente
+        /// </summary>
+        /// <param name="obj">string a analizar</param>
+        /// <returns>El enum en base al string</returns>
         public ETipoElecto DeStringParaEnum(string obj)
         {
             ETipoElecto eTipoElectro = ETipoElecto.Lavaropa;

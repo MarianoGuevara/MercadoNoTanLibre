@@ -9,7 +9,7 @@ namespace UnitTest
     public class TestsUnitarios
     {
         /// <summary>
-        /// Verifica 1 de las variantes del funcionamiento del == entre 2 usuarios
+        /// Verifica el funcionamiento del == entre 2 usuarios, en caso de ser ambos objetos iguales
         /// </summary>
         [TestMethod]
         public void VerificarUsuariosIguales()
@@ -25,6 +25,10 @@ namespace UnitTest
             Assert.IsTrue(prueba);
         }
 
+        /// <summary>
+        /// Verifica el funcionamiento del == entre 2 usuarios, en caso de ser ambos objetos diferentes,
+        /// por el password
+        /// </summary>
         [TestMethod]
         public void VerificarUsuariosDiferentesPasswords()
         {
@@ -39,6 +43,10 @@ namespace UnitTest
             Assert.IsFalse(prueba);
         }
 
+        /// <summary>
+        /// Verifica el funcionamiento del == entre 2 usuarios, en caso de ser ambos objetos diferentes,
+        /// por el mail
+        /// </summary>
         [TestMethod]
         public void VerificarUsuariosDiferentesCorreos()
         {
@@ -53,6 +61,9 @@ namespace UnitTest
             Assert.IsFalse(prueba);
         }
 
+        /// <summary>
+        /// Verifica el funcionamiento del == entre 2 usuarios, siendo ambos nulos
+        /// </summary>
         [TestMethod]
         public void VerificarUsuariosNulos()
         {
@@ -67,6 +78,9 @@ namespace UnitTest
             Assert.IsTrue(prueba);
         }
 
+        /// <summary>
+        /// Verifica la modificacion de un objeto de la lista de objetos en venta
+        /// </summary>
         [TestMethod]
         public void EditarObjeto_Plataforma_OK()
         {
@@ -85,6 +99,9 @@ namespace UnitTest
             Assert.AreEqual(p1.ObjetosEnVenta[0], e2);
         }
 
+        /// <summary>
+        /// Verifica uno de los errores probables en la modificacion de un objeto de la lista de objetos en venta
+        /// </summary>
         [TestMethod]
         public void EditarObjeto_Plataforma_Falla_FueraIndice()
         {
@@ -108,6 +125,9 @@ namespace UnitTest
             }
         }
 
+        /// <summary>
+        /// Verifica la eliminacion de un objeto de la lista de objetos en venta
+        /// </summary>
         [TestMethod]
         public void EliminarObjeto_Plataforma_OK()
         {
@@ -126,6 +146,9 @@ namespace UnitTest
             Assert.IsTrue(noEsta);
         }
 
+        /// <summary>
+        /// Verifica el metodo parsear de la clase VerficadoraDeValidez
+        /// </summary>
         [TestMethod]
         public void ClaseVerificadoraParsearCorrecto()
         {
@@ -139,6 +162,9 @@ namespace UnitTest
             Assert.AreEqual(resultado, 5);
         }
 
+        /// <summary>
+        /// Verifica el error en el metodo parsear de la clase VerficadoraDeValidez
+        /// </summary>
         [TestMethod]
         public void ClaseVerificadoraParsearError()
         {
@@ -157,6 +183,10 @@ namespace UnitTest
             }
         }
 
+        /// <summary>
+        /// Verifica el metodo VerificarLargoString de la clase VerficadoraDeValidez
+        /// si el string pasado esta OK
+        /// </summary>
         [TestMethod]
         public void ClaseVerificadoraVerificarLargoString_OK()
         {
@@ -170,6 +200,10 @@ namespace UnitTest
             Assert.IsTrue(largo);
         }
 
+        /// <summary>
+        /// Verifica el retorno del metodo VerificarLargoString de la clase VerficadoraDeValidez
+        /// si el string pasado es demasiado corto
+        /// </summary>
         [TestMethod]
         public void ClaseVerificadoraVerificarLargoString_CORTO()
         {

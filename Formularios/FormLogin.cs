@@ -13,6 +13,7 @@ namespace Formularios
 {
     /// <summary>
     /// La clase del login, que hereda del formulario del login padre. El usuario inicia sesión aqui.
+    /// Implementa la interfaz serializadora
     /// </summary>
     public partial class FormLogin : FormLoginPadre, ISerializadora<List<Usuario>>
     {
@@ -22,7 +23,6 @@ namespace Formularios
         private event DelegadoSinParam EventolimpiarLogin;
         private CancellationToken cancelarFlujo;
         private CancellationTokenSource fuenteDeCancelacion;
-        private int hs;
         private int ms;
         private int ss;
         private bool finCronometro;
@@ -51,10 +51,8 @@ namespace Formularios
             this.fuenteDeCancelacion = new CancellationTokenSource();
             this.cancelarFlujo = this.fuenteDeCancelacion.Token;
             this.finCronometro = false;
-            this.hs = 0;
             this.ms = 0;
             this.ss = 0;
-            this.lblTiempo.Text = $"{this.hs} : {this.ms} : {this.ss}";
         }
 
         /// <summary>
@@ -77,7 +75,7 @@ namespace Formularios
 
                         MessageBox.Show($"Usuario valido, bienvenido '{usuario.nombre}'");
 
-                        this.Limpiar();
+                        this.limpiarInputs();
                         this.Hide();
                         FormAppMain fa = new FormAppMain(usuario, FormLogin.plataforma);
                         fa.ShowDialog();
@@ -127,12 +125,17 @@ namespace Formularios
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void CronometroRegresivo(int horaInicio, int minsInicio, int segsInicio)
+
+        /// <summary>
+        /// En bucle, retrocede en un cronometro, dando al usuario un limite para iniciar sesión
+        /// </summary>
+        /// <param name="minsInicio">limite de minutos para iniciar sesion</param>
+        /// <param name="segsInicio">limite de segundos para iniciar sesion</param>
+        private void CronometroRegresivo(int minsInicio, int segsInicio)
         {
-            this.hs = horaInicio;
             this.ms = minsInicio;
             this.ss = segsInicio;
-            this.lblTiempo.Text = $"{this.hs} : {this.ms} : {this.ss}";
+            this.lblTiempo.Text = $"{this.ms} : {this.ss}";
 
             do
             {
@@ -151,6 +154,10 @@ namespace Formularios
             this.finCronometro = true;
             this.Close();
         }
+
+        /// <summary>
+        /// Hilo. Retrocede el atributo correspondiente en 1, dando la ilusion de un cronometro
+        /// </summary>
         private void RetrocederCronometro()
         {
             if (this.lblTiempo.InvokeRequired)
@@ -160,24 +167,19 @@ namespace Formularios
             }
             else
             {
-                if (this.ss == 0 && this.ms == 0 && this.hs == 0)
+                if (this.ss == 0 && this.ms == 0)
                 {
                     this.fuenteDeCancelacion.Cancel();
                 }
 
                 if (this.ss == 0)
                 {
-                    this.ss = 59;
+                    this.ss = 60;
                     this.ms--;
-                }
-                if (this.ms == 0 && this.hs > 0)
-                {
-                    this.ms = 59;
-                    this.hs--;
                 }
 
                 this.ss--;
-                this.lblTiempo.Text = $"{this.hs} : {this.ms} : {this.ss}";
+                this.lblTiempo.Text = $"{this.ms} : {this.ss}";
             }
         }
         private void FormLogin_Load(object sender, EventArgs e)
@@ -190,8 +192,12 @@ namespace Formularios
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            Task taskTiempo = Task.Run(() => this.CronometroRegresivo(0, 1, 30));
+            Task taskTiempo = Task.Run(() => this.CronometroRegresivo(1, 5));
         }
+
+        /// <summary>
+        /// Verifica, si no es por limite de tiempo, si se quiere cerrar la app...
+        /// </summary>
         private void FormLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
             try
@@ -260,15 +266,6 @@ namespace Formularios
                 }
             }
             catch { throw new ExcepcionArchivoInvalido("Imposible deserializar los usuarios"); }
-        }
-
-        /// <summary>
-        /// Vacía las 2 propiedades de texto de los controles correspondientes
-        /// </summary>
-        private void Limpiar()
-        {
-            this.txtMail.Text = string.Empty;
-            this.txtPassword.Text = string.Empty;
         }
     }
 }

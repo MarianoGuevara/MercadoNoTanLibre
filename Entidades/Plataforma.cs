@@ -136,6 +136,11 @@ namespace Entidades
             if (p == o) p.objetosEnVenta.Remove(o);
             return p;
         }
+
+        /// <summary>
+        /// Implementacion de interfaz CRUD. Metodo que agrega a la lista
+        /// </summary>
+        /// <param name="o">objeto a agregar</param>
         public void Agregar(ObjetoEnVenta o)
         {
             Plataforma p = new Plataforma();
@@ -143,12 +148,21 @@ namespace Entidades
             p += o;
         }
 
+        /// <summary>
+        /// Implementacion de interfaz CRUD. Metodo que elimina de una lista
+        /// </summary>
+        /// <param name="o">objeto a eliminar</param>
         public void Eliminar(ObjetoEnVenta o)
         {
             Plataforma p = new Plataforma();
             p = this;
             p -= o;
         }
+
+        /// <summary>
+        /// Implementacion de interfaz CRUD. Metodo que edita miembro de una lista
+        /// </summary>
+        /// <param name="o">objeto a modificar</param>
         public void Editar(ObjetoEnVenta o, int indiceListaCrud)
         {
             this.ObjetosEnVenta[indiceListaCrud] = o;
@@ -166,27 +180,20 @@ namespace Entidades
         public bool DescripcionUnica(ObjetoEnVenta o)
         {
             bool retorno = false;
-            //int reiteraciones = 0;
             foreach (ObjetoEnVenta objeto in this.ObjetosEnVenta)
             {
                 if (objeto.Descripcion == o.Descripcion) retorno = true ;
             }
-
-            //if (stringParaEditar == "no") if (reiteraciones > 0) retorno = true;
-            //else if (reiteraciones > 0) retorno = true;
-            
             return retorno;
         }
 
         public bool DescripcionUnica(ObjetoEnVenta o, ObjetoEnVenta o2)
         {
             bool retorno = false;
-            //int reiteraciones = 0;
             foreach (ObjetoEnVenta objeto in this.ObjetosEnVenta)
             {
                 if (objeto.Descripcion == o.Descripcion && objeto != o2) retorno = true;
             }
-            //if (reiteraciones > 0) retorno = true;
             return retorno;
         }
 

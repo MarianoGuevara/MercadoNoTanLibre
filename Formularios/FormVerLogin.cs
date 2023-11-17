@@ -28,7 +28,7 @@ namespace Formularios
             this.StartPosition = FormStartPosition.CenterScreen;
             this.ActualizarPantalla(rutaSerializacion);
         }
-        public FormVerLogin():this(Environment.CurrentDirectory + "/usuarios.log") { }
+        public FormVerLogin() : this(Environment.CurrentDirectory + "/usuarios.log") { }
 
         /// <summary>
         /// Si existe un archivo determinado, devuelve el texto deserializado. Implementacion
@@ -69,7 +69,7 @@ namespace Formularios
         /// </summary>
         private void ActualizarPantalla(string rutaSerializacion)
         {
-            this.rbInfo.Text = ""; 
+            this.rbInfo.Text = "";
             this.rbInfo.Text = this.Deserializar(rutaSerializacion);
         }
     }

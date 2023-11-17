@@ -1,74 +1,199 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Entidades.ObjetoEnVenta">
-    <Position X="2.75" Y="0.5" Width="3" />
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Entidades.Alimento">
+    <Position X="1" Y="9.25" Width="7" />
     <TypeIdentifier>
-      <HashCode>AABAIAAAgAEAQAAAwUAAABARAAAAEBAAAAACAAAAAiA=</HashCode>
+      <HashCode>AQAAAAEAAAACAAAEwAAAAAiAAAAIABAAAAAAAAAAAiA=</HashCode>
+      <FileName>Alimento.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Entidades.Ropa">
+    <Position X="8.5" Y="9.25" Width="6.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAIAEwACAAACAAAAAABCAAAAAgAAAAiA=</HashCode>
+      <FileName>Ropa.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Entidades.Electrodomestico">
+    <Position X="15.75" Y="9.25" Width="8" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAASABAEwAAAAACAAAAAABAAAAAAAAAAIiA=</HashCode>
+      <FileName>Electrodomestico.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Entidades.ObjetoEnVenta">
+    <Position X="9" Y="0.5" Width="5.5" />
+    <TypeIdentifier>
+      <HashCode>AIBAIACAgAEAYAAAwUAAABARAAAAEBAAAAASAAAAAiA=</HashCode>
       <FileName>ObjetoEnVenta.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Entidades.Ropa">
-    <Position X="0.5" Y="6" Width="2.75" />
+  <Class Name="Entidades.ExcepcionArchivoInvalido">
+    <Position X="23.5" Y="0.5" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAIAEwACAAAAAAAAAABCAAAAAgAAAAiA=</HashCode>
-      <FileName>Ropa.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExcepcionArchivoInvalido.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Entidades.Electrodomestico">
-    <Position X="3.75" Y="6" Width="2.75" />
+  <Class Name="Entidades.ExcepcionDatosInvalidos">
+    <Position X="23.5" Y="2" Width="3" />
     <TypeIdentifier>
-      <HashCode>AAAAABAAAAAQABAEwAAAAAAAAAAAABAAAAAAAAAAIiA=</HashCode>
-      <FileName>Electrodomestico.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExcepcionDatosInvalidos.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Entidades.Alimento">
-    <Position X="7" Y="6" Width="2.5" />
+  <Class Name="Entidades.ExcepcionErrorConBaseDatos">
+    <Position X="23.5" Y="3.5" Width="3" />
     <TypeIdentifier>
-      <HashCode>AQAAAAEAAAAAAAAEwAAAAAgAAAAIABAAAAAAAAAAAiA=</HashCode>
-      <FileName>Alimento.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExcepcionErrorConBaseDatos.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Entidades.ExcepcionSobrecargaInvalida">
+    <Position X="23.5" Y="5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExcepcionSobrecargaInvalida.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entidades.ExcepcionYaRegistrado">
+    <Position X="23.5" Y="6.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExcepcionYaRegistrado.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Entidades.NexoBaseDatos">
+    <Position X="1.75" Y="2.25" Width="6.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQKIQCAAAgEAAAACCAAAAAAAAAICAAAAAQAAA=</HashCode>
+      <FileName>NexoBaseDatos.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Entidades.Plataforma">
-    <Position X="13" Y="0.5" Width="2.25" />
+    <Position X="27.5" Y="0.5" Width="4.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAQAACAAQAEAABAAAABQAAAAAAECAAAEAiA=</HashCode>
+      <HashCode>AAAAAAEQAAQAACAAQAEAABAAAABQAAAAAAECAAAUAiA=</HashCode>
       <FileName>Plataforma.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Entidades.Usuario">
-    <Position X="10.5" Y="0.5" Width="1.75" />
+    <Position X="26.75" Y="8" Width="6.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAQBAACEgAAAAAAAAAQAAACAAAAQAAAAAmA=</HashCode>
       <FileName>Usuario.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Entidades.VerficadoraDeValidez">
+    <Position X="26.75" Y="12.5" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAABAAAAAAAAAEAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>VerficadoraDeValidez.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Entidades.IConversorImplicito&lt;T&gt;">
+    <Position X="16" Y="5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IConversorImplicito.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Entidades.ICrud&lt;T&gt;">
+    <Position X="19.25" Y="4.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>ICrud.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Entidades.ISerializadora&lt;T&gt;">
+    <Position X="16" Y="6.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>ISerializadora.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Entidades.IVerificador">
+    <Position X="19" Y="6.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IVerificador.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Enum Name="ETipoProducto">
-    <Position X="6.5" Y="2.5" Width="1.5" />
+    <Position X="19.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAABEAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Enumerado.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="ETipoElecto">
-    <Position X="8.25" Y="1" Width="1.5" />
+    <Position X="15.75" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAQACAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Enumerado.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="ETipoAlimento">
-    <Position X="6.5" Y="1" Width="1.5" />
+    <Position X="21.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAgAAAAAAAAgAAAAAA=</HashCode>
       <FileName>Enumerado.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="ETipoRopa">
-    <Position X="8.25" Y="2.5" Width="1.5" />
+    <Position X="17.5" Y="3" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQACA=</HashCode>
       <FileName>Enumerado.cs</FileName>
     </TypeIdentifier>
   </Enum>
+  <Delegate Name="DelegadoMostrar">
+    <Position X="15.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegados.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="DelegadoIgualdad">
+    <Position X="17.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegados.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="DelegadoVerificarString">
+    <Position X="21" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Delegados.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="DelegadoInformarParseoFallido">
+    <Position X="19.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegados.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="DelegadoFecha">
+    <Position X="15.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegados.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="DelegadoSinParam">
+    <Position X="17.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Delegados.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

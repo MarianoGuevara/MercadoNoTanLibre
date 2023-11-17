@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="Formularios.FormAppMain">
+    <Position X="0.5" Y="1.75" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAGAMQhAyNGEDAQQiCAIUALiAgIAAUgVIQA6BAEQAE=</HashCode>
+      <FileName>FormAppMain.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Formularios.FormComprasPrevias">
+    <Position X="7.25" Y="0.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FormComprasPrevias.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Formularios.FormLoginPadre">
+    <Position X="13" Y="3.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAACAAAAQAAACAAAECAAQQAAAAAgAAAABAYAA=</HashCode>
+      <FileName>FormLoginPadre.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Formularios.FormLogin">
+    <Position X="5" Y="8" Width="4.75" />
+    <TypeIdentifier>
+      <HashCode>BAAGAAAYACAAADAAQACACAACAACAAAAQQAQACEhABEA=</HashCode>
+      <FileName>FormLogin.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Formularios.FormGenerarObjetoVenta">
+    <Position X="10.5" Y="8" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AQQAggEYDCAgEBAQAACAAAACBgAIAAAQAAAAAAAAgAA=</HashCode>
+      <FileName>FormGenerarObjetoVenta.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Formularios.FormRegistros">
+    <Position X="16.25" Y="8" Width="4.5" />
+    <TypeIdentifier>
+      <HashCode>AQADEAAYAGIQABAAAADAAAECAAAAAAAIAAQAAAAAARQ=</HashCode>
+      <FileName>FormRegistros.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Formularios.FormVerLogin">
+    <Position X="5" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAACAAACAAAACAAAACAAAAAAIAQAAAABBAAAA=</HashCode>
+      <FileName>FormVerLogin.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Formularios.FormVerUsuarios">
+    <Position X="9" Y="3.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAACAAEAACAAAAAAAACAAAACAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FormVerUsuarios.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -146,12 +146,14 @@ namespace Formularios
 
         private void FormAppMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.fuenteDeCancelacion.Cancel();
-
             DialogResult rta = MessageBox.Show("Seguro que desea cerrar sesión?"
                         , "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-            if (rta == DialogResult.Yes) DialogResult = DialogResult.OK;
+            if (rta == DialogResult.Yes)
+            {
+                this.fuenteDeCancelacion.Cancel();
+                DialogResult = DialogResult.OK;
+            }
             else
             {
                 e.Cancel = true;

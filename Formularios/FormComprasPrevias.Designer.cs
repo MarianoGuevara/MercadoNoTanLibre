@@ -46,6 +46,7 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 675);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "FormComprasPrevias";
             Text = "FormComprasPrevias";
             ResumeLayout(false);

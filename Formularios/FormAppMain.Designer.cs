@@ -352,6 +352,7 @@
             Controls.Add(lblInfo);
             Controls.Add(ftUser);
             Controls.Add(ftLogo);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "FormAppMain";
             Text = "FormAppMain";
             FormClosing += FormAppMain_FormClosing;

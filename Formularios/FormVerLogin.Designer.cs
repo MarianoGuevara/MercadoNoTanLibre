@@ -72,6 +72,7 @@
             Controls.Add(pictureBox1);
             Controls.Add(lblInfo);
             Controls.Add(rbInfo);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "FormVerLogin";
             Text = "FormVerUsers";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

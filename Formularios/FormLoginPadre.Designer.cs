@@ -132,6 +132,7 @@
             Controls.Add(txtMail);
             Controls.Add(lblTitulo);
             ForeColor = SystemColors.ActiveCaptionText;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "FormLoginPadre";
             Text = "FormLoginPadre";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

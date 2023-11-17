@@ -52,7 +52,8 @@ namespace Formularios
             this.cancelarFlujo = this.fuenteDeCancelacion.Token;
             this.finCronometro = false;
             this.ms = 0;
-            this.ss = 0;
+            this.ss = 45;
+            this.lblTiempo.Text = $"{this.ms} : {this.ss}";
         }
 
         /// <summary>
@@ -75,14 +76,24 @@ namespace Formularios
 
                         MessageBox.Show($"Usuario valido, bienvenido '{usuario.nombre}'");
 
+                        this.Cerrar(false);
+
                         this.limpiarInputs();
                         this.Hide();
+
                         FormAppMain fa = new FormAppMain(usuario, FormLogin.plataforma);
                         fa.ShowDialog();
                         if (fa.DialogResult == DialogResult.OK)
                         {
                             this.DialogResult = DialogResult.Cancel;
                             this.Show();
+
+                            this.fuenteDeCancelacion = new CancellationTokenSource();
+                            this.cancelarFlujo = this.fuenteDeCancelacion.Token;
+
+                            this.ss = 30;
+                            this.lblTiempo.Text = $"{this.ms} : {this.ss}";
+                            Task taskTiempo = Task.Run(() => this.CronometroRegresivo());
                         }
                     }
                     else
@@ -131,28 +142,23 @@ namespace Formularios
         /// </summary>
         /// <param name="minsInicio">limite de minutos para iniciar sesion</param>
         /// <param name="segsInicio">limite de segundos para iniciar sesion</param>
-        private void CronometroRegresivo(int minsInicio, int segsInicio)
+        private void CronometroRegresivo()
         {
-            this.ms = minsInicio;
-            this.ss = segsInicio;
-            this.lblTiempo.Text = $"{this.ms} : {this.ss}";
-
             do
             {
                 if (this.cancelarFlujo.IsCancellationRequested) break;
-
 
                 Thread.Sleep(1000);
                 this.RetrocederCronometro();
 
             } while (true);
 
-            this.Cerrar();
+            if (this.finCronometro==true) this.Cerrar();
         }
-        private void Cerrar()
+        private void Cerrar(bool cerrar=true)
         {
-            this.finCronometro = true;
-            this.Close();
+            if (cerrar) this.Close();
+            else this.fuenteDeCancelacion.Cancel();
         }
 
         /// <summary>
@@ -169,6 +175,7 @@ namespace Formularios
             {
                 if (this.ss == 0 && this.ms == 0)
                 {
+                    this.finCronometro = true;
                     this.fuenteDeCancelacion.Cancel();
                 }
 
@@ -192,7 +199,7 @@ namespace Formularios
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            Task taskTiempo = Task.Run(() => this.CronometroRegresivo(1, 5));
+            Task taskTiempo = Task.Run(() => this.CronometroRegresivo());
         }
 
         /// <summary>

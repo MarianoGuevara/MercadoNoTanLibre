@@ -10,4 +10,4 @@ public delegate void DelegadoInformarParseoFallido(string str);
 
 public delegate void DelegadoFecha(DateTime fecha);
 
-public delegate void DelegadoSlider();
+public delegate void DelegadoSinParam();

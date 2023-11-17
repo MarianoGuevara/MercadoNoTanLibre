@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "8HC9TgvjilKAFQI03BWQnD+MHd3xX+q1V6rJFviRDov9lBp8KdLy0si1Bp+A82CdYjPL2FOnw0hCFIM57JDR7Q==",
+  "dgSpecHash": "Cr7OHee/rx7iEhPRHl2hbDSrjZCv6qIE/kaSLm5Vj5cpHaqcIY/YMTf88U33Md3Z8VVwBNWdqQNsbdTVg05Ivw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Mariano\\Desktop\\laboratorio2\\parcialDosLaboII\\Guevara.Mariano\\TesteoConsola\\TesteoConsola.csproj",
   "expectedPackageFiles": [
@@ -44,10 +44,10 @@
     "C:\\Users\\Mariano\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512",
     "C:\\Users\\Mariano\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\Mariano\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
-    "C:\\Users\\Mariano\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.24\\microsoft.windowsdesktop.app.ref.6.0.24.nupkg.sha512",
-    "C:\\Users\\Mariano\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.24\\microsoft.netcore.app.ref.6.0.24.nupkg.sha512",
-    "C:\\Users\\Mariano\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.24\\microsoft.aspnetcore.app.ref.6.0.24.nupkg.sha512",
-    "C:\\Users\\Mariano\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.24\\microsoft.netcore.app.host.win-x64.6.0.24.nupkg.sha512"
+    "C:\\Users\\Mariano\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.25\\microsoft.windowsdesktop.app.ref.6.0.25.nupkg.sha512",
+    "C:\\Users\\Mariano\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.25\\microsoft.netcore.app.ref.6.0.25.nupkg.sha512",
+    "C:\\Users\\Mariano\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.25\\microsoft.aspnetcore.app.ref.6.0.25.nupkg.sha512",
+    "C:\\Users\\Mariano\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.25\\microsoft.netcore.app.host.win-x64.6.0.25.nupkg.sha512"
   ],
   "logs": []
 }

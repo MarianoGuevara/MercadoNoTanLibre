@@ -20,6 +20,7 @@ namespace Formularios
         /// <summary>
         /// Constructor. Inicia el formulario en el centro y sin ícono
         /// </summary>
+
         public FormLoginPadre()
         {
             InitializeComponent();

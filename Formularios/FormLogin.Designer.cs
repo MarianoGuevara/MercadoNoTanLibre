@@ -29,26 +29,33 @@
         private void InitializeComponent()
         {
             label1 = new Label();
+            lblTiempo = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // lblTitulo
             // 
-            lblTitulo.Location = new Point(154, 126);
-            lblTitulo.Size = new Size(218, 38);
-            lblTitulo.Text = "INICIAR SESIÓN";
+            lblTitulo.Font = new Font("Segoe UI Emoji", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            lblTitulo.Location = new Point(168, 131);
+            lblTitulo.Size = new Size(194, 37);
+            lblTitulo.Text = "Iniciar Sesión";
             // 
             // txtMail
             // 
-            txtMail.Location = new Point(102, 253);
+            txtMail.Location = new Point(113, 253);
             // 
             // txtPassword
             // 
+            txtPassword.Location = new Point(111, 354);
             txtPassword.PasswordChar = '*';
             // 
             // lblMail
             // 
-            lblMail.Location = new Point(102, 218);
+            lblMail.Location = new Point(235, 218);
+            // 
+            // lblPassword
+            // 
+            lblPassword.Location = new Point(210, 319);
             // 
             // btn1
             // 
@@ -61,21 +68,36 @@
             btn2.Text = "Boton 2";
             btn2.Click += btn2_Click;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Location = new Point(113, 18);
+            // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point);
-            label1.Location = new Point(25, 656);
+            label1.Location = new Point(12, 741);
             label1.Name = "label1";
             label1.Size = new Size(243, 25);
             label1.TabIndex = 8;
             label1.Text = "Mercado (no tan) libre - 2023";
             // 
+            // lblTiempo
+            // 
+            lblTiempo.AutoSize = true;
+            lblTiempo.Font = new Font("Segoe UI Emoji", 14F, FontStyle.Bold, GraphicsUnit.Point);
+            lblTiempo.Location = new Point(202, 652);
+            lblTiempo.Name = "lblTiempo";
+            lblTiempo.Size = new Size(127, 37);
+            lblTiempo.TabIndex = 9;
+            lblTiempo.Text = "00:00:00";
+            // 
             // FormLogin
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(530, 703);
+            ClientSize = new Size(530, 775);
+            Controls.Add(lblTiempo);
             Controls.Add(label1);
             Name = "FormLogin";
             Text = "Form1";
@@ -90,6 +112,7 @@
             Controls.SetChildIndex(btn1, 0);
             Controls.SetChildIndex(btn2, 0);
             Controls.SetChildIndex(label1, 0);
+            Controls.SetChildIndex(lblTiempo, 0);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -98,5 +121,6 @@
         #endregion
 
         private Label label1;
+        private Label lblTiempo;
     }
 }

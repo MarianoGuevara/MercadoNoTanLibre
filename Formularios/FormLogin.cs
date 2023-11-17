@@ -19,6 +19,14 @@ namespace Formularios
         private static string pathJson;
         private static string pathLog;
         private static Plataforma plataforma;
+        private event DelegadoSinParam EventolimpiarLogin;
+        private CancellationToken cancelarFlujo;
+        private CancellationTokenSource fuenteDeCancelacion;
+        private int hs;
+        private int ms;
+        private int ss;
+        private bool finCronometro;
+
         /// <summary>
         /// Constructor estático. Inicializa los atributos estáticos
         /// </summary>
@@ -39,6 +47,14 @@ namespace Formularios
             this.Text = "Inicio de sesión";
             this.btn1.Text = "ACCEDER";
             this.btn2.Text = "REGISTRARSE";
+            this.EventolimpiarLogin += new DelegadoSinParam(this.limpiarInputs);
+            this.fuenteDeCancelacion = new CancellationTokenSource();
+            this.cancelarFlujo = this.fuenteDeCancelacion.Token;
+            this.finCronometro = false;
+            this.hs = 0;
+            this.ms = 0;
+            this.ss = 0;
+            this.lblTiempo.Text = $"{this.hs} : {this.ms} : {this.ss}";
         }
 
         /// <summary>
@@ -81,11 +97,18 @@ namespace Formularios
             catch (ExcepcionDatosInvalidos ex)
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.EventolimpiarLogin.Invoke();
             }
             catch (ExcepcionArchivoInvalido ex)
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void limpiarInputs()
+        {
+            this.txtMail.Text = string.Empty;
+            this.txtPassword.Text = string.Empty;
         }
 
         /// <summary>
@@ -104,6 +127,59 @@ namespace Formularios
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void CronometroRegresivo(int horaInicio, int minsInicio, int segsInicio)
+        {
+            this.hs = horaInicio;
+            this.ms = minsInicio;
+            this.ss = segsInicio;
+            this.lblTiempo.Text = $"{this.hs} : {this.ms} : {this.ss}";
+
+            do
+            {
+                if (this.cancelarFlujo.IsCancellationRequested) break;
+
+
+                Thread.Sleep(1000);
+                this.RetrocederCronometro();
+
+            } while (true);
+
+            this.Cerrar();
+        }
+        private void Cerrar()
+        {
+            this.finCronometro = true;
+            this.Close();
+        }
+        private void RetrocederCronometro()
+        {
+            if (this.lblTiempo.InvokeRequired)
+            {
+                DelegadoSinParam d = new DelegadoSinParam(RetrocederCronometro);
+                this.lblTiempo.Invoke(d);
+            }
+            else
+            {
+                if (this.ss == 0 && this.ms == 0 && this.hs == 0)
+                {
+                    this.fuenteDeCancelacion.Cancel();
+                }
+
+                if (this.ss == 0)
+                {
+                    this.ss = 59;
+                    this.ms--;
+                }
+                if (this.ms == 0 && this.hs > 0)
+                {
+                    this.ms = 59;
+                    this.hs--;
+                }
+
+                this.ss--;
+                this.lblTiempo.Text = $"{this.hs} : {this.ms} : {this.ss}";
+            }
+        }
         private void FormLogin_Load(object sender, EventArgs e)
         {
             try
@@ -114,24 +190,29 @@ namespace Formularios
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            Task taskTiempo = Task.Run(() => this.CronometroRegresivo(0, 1, 30));
         }
         private void FormLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
             try
             {
                 this.Serializar(FormLogin.plataforma.Usuarios, FormLogin.pathJson);
-                DialogResult rta = MessageBox.Show("Seguro que desea cerrar la aplicación?"
+
+
+                if (this.finCronometro == false)
+                {
+                    DialogResult rta = MessageBox.Show("Seguro que desea cerrar la aplicación?"
                     , "", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-                if (rta == DialogResult.Yes)
-                {
-                    MessageBox.Show("Gracias por usar la app!");
-                    DialogResult = DialogResult.OK;
-                }
-                else
-                {
-                    e.Cancel = true;
-
+                    if (rta == DialogResult.Yes)
+                    {
+                        MessageBox.Show("Gracias por usar la app!");
+                        DialogResult = DialogResult.OK;
+                    }
+                    else
+                    {
+                        e.Cancel = true;
+                    }
                 }
             }
             catch (ExcepcionArchivoInvalido ex)
@@ -157,7 +238,7 @@ namespace Formularios
                     escritor.WriteLine(objJson);
                 }
             }
-            catch 
+            catch
             {
                 throw new ExcepcionArchivoInvalido("Imposible serializar los usuarios");
             }

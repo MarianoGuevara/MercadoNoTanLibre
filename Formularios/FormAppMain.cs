@@ -28,7 +28,6 @@ namespace Formularios
         private Plataforma plataforma;
         private CancellationToken cancelarFlujo;
         private CancellationTokenSource fuenteDeCancelacion;
-        private List<int> listaOferta;
 
         /// <summary>
         /// Constructor. Inicializa atributos y propiedades de controles como es conveniente. 
@@ -90,8 +89,6 @@ namespace Formularios
             this.txtInfoProducto2.View = View.Details;
             this.txtInfoProducto2.Columns.Add("", this.txtInfoProducto2.Width); // si no genero 1 columna, no se generan las filas
             this.ActualizarCatalogo();
-
-            this.listaOferta = new List<int>() { 0, 1, 2 };
         }
 
         /// <summary>
@@ -397,7 +394,7 @@ namespace Formularios
         {
             if (this.lblHora.InvokeRequired)
             {
-                DelegadoSlider d = new DelegadoSlider(ActualizarSlider);
+                DelegadoSinParam d = new DelegadoSinParam(ActualizarSlider);
                 this.lblHora.Invoke(d);
             }
             else this.ActualizarContenidoSlider();

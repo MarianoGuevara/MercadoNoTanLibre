@@ -20,7 +20,7 @@ namespace Formularios
         private static string pathJson;
         private static string pathLog;
         private static Plataforma plataforma;
-        private event DelegadoSinParam EventolimpiarLogin;
+        private event DelegadoSinParam EventoLimpiar;
         private CancellationToken cancelarFlujo;
         private CancellationTokenSource fuenteDeCancelacion;
         private int ms;
@@ -47,7 +47,7 @@ namespace Formularios
             this.Text = "Inicio de sesión";
             this.btn1.Text = "ACCEDER";
             this.btn2.Text = "REGISTRARSE";
-            this.EventolimpiarLogin += new DelegadoSinParam(this.limpiarInputs);
+            this.EventoLimpiar += new DelegadoSinParam(this.limpiarInputs);
             this.fuenteDeCancelacion = new CancellationTokenSource();
             this.cancelarFlujo = this.fuenteDeCancelacion.Token;
             this.finCronometro = false;
@@ -106,7 +106,7 @@ namespace Formularios
             catch (ExcepcionDatosInvalidos ex)
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.EventolimpiarLogin.Invoke();
+                this.EventoLimpiar.Invoke();
             }
             catch (ExcepcionArchivoInvalido ex)
             {
@@ -125,8 +125,18 @@ namespace Formularios
         /// </summary>
         private void btn2_Click(object sender, EventArgs e)
         {
+            this.Cerrar(false);
+
             FormRegistros fr = new FormRegistros(FormLogin.plataforma);
             fr.ShowDialog();
+
+            this.fuenteDeCancelacion = new CancellationTokenSource();
+            this.cancelarFlujo = this.fuenteDeCancelacion.Token;
+
+            this.ss = 30;
+            this.lblTiempo.Text = $"{this.ms} : {this.ss}";
+            Task taskTiempo = Task.Run(() => this.CronometroRegresivo());
+
             try
             {
                 this.Serializar(FormLogin.plataforma.Usuarios, FormLogin.pathJson);

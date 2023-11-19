@@ -47,11 +47,14 @@ namespace Formularios
             this.Text = "Inicio de sesión";
             this.btn1.Text = "ACCEDER";
             this.btn2.Text = "REGISTRARSE";
-            this.EventoLimpiar += new DelegadoSinParam(this.limpiarInputs);
+
+            this.EventoLimpiar += new DelegadoSinParam(this.LimpiarInputs);
+
             this.fuenteDeCancelacion = new CancellationTokenSource();
             this.cancelarFlujo = this.fuenteDeCancelacion.Token;
+
             this.finCronometro = false;
-            this.ms = 0;
+            this.ms = 1;
             this.ss = 45;
             this.lblTiempo.Text = $"{this.ms} : {this.ss}";
         }
@@ -78,7 +81,7 @@ namespace Formularios
 
                         this.Cerrar(false);
 
-                        this.limpiarInputs();
+                        this.LimpiarInputs();
                         this.Hide();
 
                         FormAppMain fa = new FormAppMain(usuario, FormLogin.plataforma);
@@ -91,30 +94,39 @@ namespace Formularios
                             this.fuenteDeCancelacion = new CancellationTokenSource();
                             this.cancelarFlujo = this.fuenteDeCancelacion.Token;
 
-                            this.ss = 30;
+                            this.ms = 1;
+                            this.ss = 45;
                             this.lblTiempo.Text = $"{this.ms} : {this.ss}";
                             Task taskTiempo = Task.Run(() => this.CronometroRegresivo());
                         }
                     }
                     else
                     {
-                        throw new ExcepcionDatosInvalidos("Los datos del ingreso no coinciden con ningun miembro de la plataforma");
+                        throw new Exception();
                     }
                 }
                 else throw new ExcepcionDatosInvalidos("Datos en formato invalido");
-            }
-            catch (ExcepcionDatosInvalidos ex)
-            {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.EventoLimpiar.Invoke();
             }
             catch (ExcepcionArchivoInvalido ex)
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            catch (ExcepcionDatosInvalidos)
+            {
+                this.EventoLimpiar += new DelegadoSinParam(this.InformarErrorInvalido);
+                this.EventoLimpiar.Invoke();
+                this.EventoLimpiar -= new DelegadoSinParam(this.InformarErrorInvalido);
+            }
+            catch (Exception) 
+            {
+                this.EventoLimpiar += new DelegadoSinParam(this.InformarErrorCoincidente);
+                this.EventoLimpiar.Invoke();
+                this.EventoLimpiar -= new DelegadoSinParam(this.InformarErrorCoincidente);
+            }
         }
-
-        private void limpiarInputs()
+        private void InformarErrorInvalido() { MessageBox.Show("Datos en formato invalido", "", MessageBoxButtons.OK, MessageBoxIcon.Error);  }
+        private void InformarErrorCoincidente() { MessageBox.Show("Los datos del ingreso no coinciden con ningun miembro de la plataforma", "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        private void LimpiarInputs()
         {
             this.txtMail.Text = string.Empty;
             this.txtPassword.Text = string.Empty;
@@ -133,7 +145,8 @@ namespace Formularios
             this.fuenteDeCancelacion = new CancellationTokenSource();
             this.cancelarFlujo = this.fuenteDeCancelacion.Token;
 
-            this.ss = 30;
+            this.ms = 1;
+            this.ss = 45;
             this.lblTiempo.Text = $"{this.ms} : {this.ss}";
             Task taskTiempo = Task.Run(() => this.CronometroRegresivo());
 

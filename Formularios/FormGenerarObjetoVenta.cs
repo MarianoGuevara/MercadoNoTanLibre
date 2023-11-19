@@ -46,7 +46,7 @@ namespace Formularios
         }
         private void MostrarErrorNumerico(string parseoFallido)
         {
-            MessageBox.Show($"Parseo del dato incorrecto: {parseoFallido}, intentelo nuevamente","Error",MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            MessageBox.Show($"Parseo del dato incorrecto: {parseoFallido}, intentelo nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Formularios
             {
                 MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            finally 
+            finally
             {
                 if (this.objetoVender is not null) this.DialogResult = DialogResult.OK;
                 else this.DialogResult = DialogResult.Cancel;

@@ -117,14 +117,14 @@ namespace Formularios
                 this.EventoLimpiar.Invoke();
                 this.EventoLimpiar -= new DelegadoSinParam(this.InformarErrorInvalido);
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 this.EventoLimpiar += new DelegadoSinParam(this.InformarErrorCoincidente);
                 this.EventoLimpiar.Invoke();
                 this.EventoLimpiar -= new DelegadoSinParam(this.InformarErrorCoincidente);
             }
         }
-        private void InformarErrorInvalido() { MessageBox.Show("Datos en formato invalido", "", MessageBoxButtons.OK, MessageBoxIcon.Error);  }
+        private void InformarErrorInvalido() { MessageBox.Show("Datos en formato invalido", "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         private void InformarErrorCoincidente() { MessageBox.Show("Los datos del ingreso no coinciden con ningun miembro de la plataforma", "", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         private void LimpiarInputs()
         {
@@ -176,9 +176,9 @@ namespace Formularios
 
             } while (true);
 
-            if (this.finCronometro==true) this.Cerrar();
+            if (this.finCronometro == true) this.Cerrar();
         }
-        private void Cerrar(bool cerrar=true)
+        private void Cerrar(bool cerrar = true)
         {
             if (cerrar) this.Close();
             else this.fuenteDeCancelacion.Cancel();

@@ -71,6 +71,7 @@
             // pictureBox1
             // 
             pictureBox1.Location = new Point(113, 18);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             // 
             // label1
             // 

@@ -79,6 +79,7 @@
             // pictureBox1
             // 
             pictureBox1.Location = new Point(238, 30);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             // 
             // txtCaract1
             // 

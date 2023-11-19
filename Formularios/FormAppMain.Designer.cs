@@ -66,6 +66,7 @@
             ftLogo.MinimumSize = new Size(200, 50);
             ftLogo.Name = "ftLogo";
             ftLogo.Size = new Size(304, 75);
+            ftLogo.SizeMode = PictureBoxSizeMode.Zoom;
             ftLogo.TabIndex = 1;
             ftLogo.TabStop = false;
             // 
@@ -320,6 +321,7 @@
             pbOfertas.Location = new Point(1225, 159);
             pbOfertas.Name = "pbOfertas";
             pbOfertas.Size = new Size(396, 625);
+            pbOfertas.SizeMode = PictureBoxSizeMode.Zoom;
             pbOfertas.TabIndex = 39;
             pbOfertas.TabStop = false;
             // 

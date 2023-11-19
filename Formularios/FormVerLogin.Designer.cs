@@ -60,6 +60,7 @@
             pictureBox1.Location = new Point(28, 12);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(310, 75);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 2;
             pictureBox1.TabStop = false;
             // 
@@ -73,6 +74,7 @@
             Controls.Add(lblInfo);
             Controls.Add(rbInfo);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "FormVerLogin";
             Text = "FormVerUsers";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
@@ -84,6 +86,6 @@
 
         protected RichTextBox rbInfo;
         protected Label lblInfo;
-        private PictureBox pictureBox1;
+        protected PictureBox pictureBox1;
     }
 }

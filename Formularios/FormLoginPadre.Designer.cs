@@ -114,6 +114,7 @@
             pictureBox1.Location = new Point(102, 18);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(305, 75);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 7;
             pictureBox1.TabStop = false;
             // 
@@ -133,6 +134,7 @@
             Controls.Add(lblTitulo);
             ForeColor = SystemColors.ActiveCaptionText;
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "FormLoginPadre";
             Text = "FormLoginPadre";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

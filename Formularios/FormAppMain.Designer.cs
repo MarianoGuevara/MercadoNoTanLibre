@@ -76,6 +76,7 @@
             ftUser.Location = new Point(12, 90);
             ftUser.Name = "ftUser";
             ftUser.Size = new Size(49, 48);
+            ftUser.SizeMode = PictureBoxSizeMode.Zoom;
             ftUser.TabIndex = 2;
             ftUser.TabStop = false;
             // 
@@ -102,7 +103,7 @@
             // 
             lblEditarProducto.AutoSize = true;
             lblEditarProducto.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblEditarProducto.Location = new Point(985, 100);
+            lblEditarProducto.Location = new Point(1005, 100);
             lblEditarProducto.Name = "lblEditarProducto";
             lblEditarProducto.Size = new Size(149, 28);
             lblEditarProducto.TabIndex = 16;
@@ -125,7 +126,7 @@
             // 
             lblOrdenarPrecioAsc.AutoSize = true;
             lblOrdenarPrecioAsc.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblOrdenarPrecioAsc.Location = new Point(771, 37);
+            lblOrdenarPrecioAsc.Location = new Point(763, 37);
             lblOrdenarPrecioAsc.Name = "lblOrdenarPrecioAsc";
             lblOrdenarPrecioAsc.Size = new Size(113, 28);
             lblOrdenarPrecioAsc.TabIndex = 19;
@@ -149,7 +150,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label2.Location = new Point(1038, 35);
+            label2.Location = new Point(1047, 35);
             label2.Name = "label2";
             label2.Size = new Size(17, 28);
             label2.TabIndex = 21;
@@ -173,7 +174,7 @@
             // 
             lblOrdenarTipoAsc.AutoSize = true;
             lblOrdenarTipoAsc.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblOrdenarTipoAsc.Location = new Point(1071, 35);
+            lblOrdenarTipoAsc.Location = new Point(1081, 37);
             lblOrdenarTipoAsc.Name = "lblOrdenarTipoAsc";
             lblOrdenarTipoAsc.Size = new Size(113, 28);
             lblOrdenarTipoAsc.TabIndex = 24;
@@ -187,7 +188,7 @@
             // 
             lblOrdenarTipoDesc.AutoSize = true;
             lblOrdenarTipoDesc.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblOrdenarTipoDesc.Location = new Point(1215, 35);
+            lblOrdenarTipoDesc.Location = new Point(1225, 37);
             lblOrdenarTipoDesc.Name = "lblOrdenarTipoDesc";
             lblOrdenarTipoDesc.Size = new Size(124, 28);
             lblOrdenarTipoDesc.TabIndex = 25;
@@ -227,7 +228,7 @@
             // 
             lblComprar.AutoSize = true;
             lblComprar.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            lblComprar.Location = new Point(1225, 100);
+            lblComprar.Location = new Point(1260, 100);
             lblComprar.Name = "lblComprar";
             lblComprar.Size = new Size(89, 28);
             lblComprar.TabIndex = 28;
@@ -289,7 +290,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(932, 100);
+            label3.Location = new Point(950, 100);
             label3.Name = "label3";
             label3.Size = new Size(17, 28);
             label3.TabIndex = 35;
@@ -299,7 +300,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            label5.Location = new Point(1167, 100);
+            label5.Location = new Point(1190, 100);
             label5.Name = "label5";
             label5.Size = new Size(17, 28);
             label5.TabIndex = 36;
@@ -355,6 +356,7 @@
             Controls.Add(ftUser);
             Controls.Add(ftLogo);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "FormAppMain";
             Text = "FormAppMain";
             FormClosing += FormAppMain_FormClosing;
